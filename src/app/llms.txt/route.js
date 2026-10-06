@@ -42,7 +42,7 @@ export async function GET() {
   let contactPhone = '+91 9830070983';
   let contactEmail = 'support@clezo.com';
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/contact/`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.success && data.data?.contact) {

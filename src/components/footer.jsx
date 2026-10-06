@@ -19,7 +19,7 @@ export default function Footer() {
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/contact/`);
         const result = await response.json();
         
         if (result.success && result.data && result.data.contact) {

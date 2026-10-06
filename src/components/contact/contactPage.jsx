@@ -12,7 +12,7 @@ export default function ContactPage() {
   useEffect(() => {
     const fetchContactData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/contact/`);
         const data = await res.json();
         
         if (data.success && data.data && data.data.contact) {

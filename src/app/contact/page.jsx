@@ -13,7 +13,7 @@ export const metadata = {
 
 async function getContactData() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/contact/`, {
       next: { revalidate: 600 }
     });
     const data = await res.json();

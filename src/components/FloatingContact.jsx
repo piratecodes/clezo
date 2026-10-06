@@ -8,7 +8,7 @@ export default function FloatingContact() {
   const [primaryPhone, setPrimaryPhone] = useState("+91 9830070983");
 
   React.useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/contact/`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data?.contact?.primaryPhone) {
