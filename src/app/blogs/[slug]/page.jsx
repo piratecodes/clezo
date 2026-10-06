@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/${slug}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/blogs/${slug}`);
     const data = await res.json();
     if (!data.success || !data.data?.blog) return {};
 
@@ -56,13 +56,13 @@ export default async function SingleBlogPage({ params }) {
 
   try {
     // Fetch Single Blog
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/${slug}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/blogs/${slug}`);
     const data = await res.json();
     if (data.success && data.data?.blog) {
       blog = data.data.blog;
 
       // Fetch All Blogs (to filter for similar blogs and categories)
-      const resAll = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
+      const resAll = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api/v1'}/blogs`);
       const dataAll = await resAll.json();
       
       let allBlogsList = [];
