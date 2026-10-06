@@ -48,10 +48,22 @@ export default function GalleryAlbumFormDrawer({ isOpen, setIsOpen, albumData, o
 
     window.cloudinary.openUploadWidget({
         cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
         uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
         folder: import.meta.env.MODE === 'development' ? 'dev/gallery' : 'gallery',
         cropping: !isBulk, 
         multiple: isBulk,
+        uploadSignature: async (callback, params_to_sign) => {
+          try {
+            const res = await fetchClient('/cloudinary-signature', {
+              method: 'POST',
+              body: JSON.stringify(params_to_sign)
+            });
+            callback(res.data?.signature || res.signature);
+          } catch (err) {
+            toast.error("Signature failed");
+          }
+        },
         styles: { palette: { window: "#18181b", sourceBg: "#27272a", windowBorder: "#3f3f46", tabIcon: "#c5a059", inactiveTabIcon: "#a1a1aa", menuIcons: "#e4e4e7", link: "#c5a059", action: "#c5a059", inProgress: "#3b82f6", complete: "#10b981", error: "#ef4444", textDark: "#000000", textLight: "#ffffff" } }
     }, (error, result) => {
       if (!error && result && result.event === "success") {

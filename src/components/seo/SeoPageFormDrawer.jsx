@@ -199,10 +199,22 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
     window.cloudinary.openUploadWidget(
       {
         cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
         uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
         folder: import.meta.env.MODE === 'development' ? 'clezo/dev/service pages' : 'clezo/service page',
         cropping: true,
-        multiple: false
+        multiple: false,
+        uploadSignature: async (callback, params_to_sign) => {
+          try {
+            const res = await fetchClient('/cloudinary-signature', {
+              method: 'POST',
+              body: JSON.stringify(params_to_sign)
+            });
+            callback(res.signature || res.data?.signature);
+          } catch (err) {
+            toast.error("Signature failed");
+          }
+        }
       },
       (error, result) => {
         if (!error && result && result.event === "success") {

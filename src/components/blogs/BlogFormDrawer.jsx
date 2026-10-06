@@ -246,10 +246,17 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
     if (!window.cloudinary) return toast.error("Cloudinary script missing.");
     window.cloudinary.openUploadWidget({
       cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+      apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
       uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
       folder: import.meta.env.MODE === 'development' ? 'dev/blogs' : 'blogs',
       cropping: true,
-      multiple: false
+      multiple: false,
+      uploadSignature: async (callback, params_to_sign) => {
+        try {
+          const res = await fetchClient('/cloudinary-signature', { method: 'POST', body: JSON.stringify(params_to_sign) });
+          callback(res.data.signature || res.signature);
+        } catch (err) { toast.error("Signature failed. Check backend."); }
+      }
     }, async (error, result) => {
       if (!error && result && result.event === "success") {
         // If they already had an image, delete the old one from Cloudinary to save space
