@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Role } from '@prisma/client';
+import { v2 as cloudinary } from 'cloudinary';
 
 @Injectable()
 export class AdminService {
@@ -81,13 +82,43 @@ export class AdminService {
     }
 
     if (file) {
-      dto.profilePic = file.filename;
+      // 1. Upload to Cloudinary using memory buffer
+      const folder = process.env.NODE_ENV === 'production' ? 'clezo/admins' : 'dev/admins';
+      const uploadResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(file.buffer);
+      });
       
+      dto.profilePic = (uploadResult as any).secure_url;
+      
+      // 2. Delete old image (Cloudinary or local)
       const oldUser = await this.prisma.admin.findUnique({ where: { id } });
-      if (oldUser?.profilePic && !oldUser.profilePic.startsWith('http') && oldUser.profilePic !== 'default-avatar.png') {
-        const oldImagePath = path.join(process.cwd(), 'public', 'uploads', oldUser.profilePic);
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
+      if (oldUser?.profilePic && oldUser.profilePic !== 'default-avatar.png') {
+        if (oldUser.profilePic.includes('cloudinary.com')) {
+          try {
+            const parts = oldUser.profilePic.split('/upload/');
+            if (parts.length > 1) {
+              let pathString = parts[1];
+              if (pathString.match(/^v\d+\//)) {
+                pathString = pathString.substring(pathString.indexOf('/') + 1);
+              }
+              const publicId = pathString.substring(0, pathString.lastIndexOf('.'));
+              await cloudinary.uploader.destroy(publicId);
+            }
+          } catch (e) {
+            console.error('Failed to delete old cloudinary image', e);
+          }
+        } else if (!oldUser.profilePic.startsWith('http')) {
+          const oldImagePath = path.join(process.cwd(), 'public', 'uploads', oldUser.profilePic);
+          if (fs.existsSync(oldImagePath)) {
+            fs.unlinkSync(oldImagePath);
+          }
         }
       }
     }

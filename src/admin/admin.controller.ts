@@ -6,16 +6,9 @@ import { RolesGuard } from '@/auth/guards/roles.guard';
 import { Roles } from '@/auth/decorators/roles.decorator';
 import { GetUser } from '@/auth/decorators/get-user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import * as path from 'path';
+import { memoryStorage } from 'multer';
 
-const storage = diskStorage({
-  destination: './public/uploads',
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'profile-' + uniqueSuffix + path.extname(file.originalname));
-  },
-});
+const storage = memoryStorage();
 
 @Controller('admins')
 @UseGuards(AuthGuard, RolesGuard)
