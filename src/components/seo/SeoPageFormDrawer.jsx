@@ -199,23 +199,10 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
     window.cloudinary.openUploadWidget(
       {
         cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
-        apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
         folder: import.meta.env.MODE === 'development' ? 'clezo/dev/service pages' : 'clezo/service page',
         cropping: true,
-        multiple: false,
-        // 🌟 This tells Cloudinary to ask your backend for a signature right BEFORE it uploads
-        uploadSignature: async (callback, params_to_sign) => {
-          try {
-            const res = await fetchClient('/cloudinary-signature', {
-              method: 'POST',
-              body: JSON.stringify(params_to_sign)
-            });
-            // Send the signature back to the widget (handle both wrapped and direct responses)
-            callback(res.signature || res.data?.signature);
-          } catch (err) {
-            toast.error("Signature failed");
-          }
-        }
+        multiple: false
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
