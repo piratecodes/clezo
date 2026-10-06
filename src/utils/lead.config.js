@@ -1,0 +1,33 @@
+export const LEAD_TRANSITIONS = {
+  STORE_VISIT: {
+    RECEIVED_AT_STORE: ['PROCESSING', 'CANCELLED'],
+    PROCESSING: ['READY', 'CANCELLED'],
+    READY: ['COLLECTED', 'CANCELLED'],
+    COLLECTED: [], // final
+    CANCELLED: [] // final
+  },
+  PICKUP_DROP: {
+    NEW: ['CONTACTED', 'PENDING_QUOTE', 'CONFIRMED', 'CANCELLED'],
+    CONTACTED: ['CONFIRMED', 'PENDING_QUOTE', 'CANCELLED'],
+    PENDING_QUOTE: ['QUOTED', 'CANCELLED'],
+    QUOTED: ['CONFIRMED', 'CANCELLED'],
+    CONFIRMED: ['PICKED_UP', 'CANCELLED'],
+    PICKED_UP: ['PROCESSING', 'CANCELLED'],
+    PROCESSING: ['READY', 'CANCELLED'],
+    READY: ['OUT_FOR_DELIVERY', 'CANCELLED'],
+    OUT_FOR_DELIVERY: ['DELIVERED', 'CANCELLED'],
+    DELIVERED: [], // final
+    CANCELLED: [] // final
+  }
+};
+
+// Raw list of all valid statuses per mode for dropdowns, allowing staff to correct mistakes freely
+export const ALL_MODE_STATUSES = {
+  STORE_VISIT: [
+    'RECEIVED_AT_STORE', 'PROCESSING', 'READY', 'COLLECTED', 'CANCELLED'
+  ],
+  PICKUP_DROP: [
+    'NEW', 'CONTACTED', 'PENDING_QUOTE', 'QUOTED', 'CONFIRMED', 
+    'PICKED_UP', 'PROCESSING', 'READY', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'
+  ]
+};
