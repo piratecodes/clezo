@@ -1,0 +1,361 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id                   Int             @id @default(autoincrement())
+  name                 String
+  username             String          @unique
+  email                String          @unique
+  phone                String
+  dob                  DateTime?
+  profilePic           String          @default("default-avatar.png")
+  bio                  String?         @db.VarChar(500)
+  designation          String?
+  role                 Role            @default(SALES_AGENT)
+  password             String
+  passwordChangedAt    DateTime?
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+  isActive             Boolean         @default(true)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  blogs                Blog[]
+  sessions             Session[]
+  assignedTickets      SupportTicket[]
+  ticketMessages       TicketMessage[]
+}
+
+model Session {
+  id               String   @id @default(uuid())
+  adminId          Int
+  refreshTokenHash String   @unique
+  deviceInfo       String?
+  ipAddress        String?
+  lastActive       DateTime @default(now())
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  admin            Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
+
+model Contact {
+  id                Int      @id @default(autoincrement())
+  primaryPhone      String
+  whatsappNumber    String?
+  alternatePhone    String?
+  supportEmail      String
+  salesEmail        String?
+  headOfficeAddress String
+  googleMapsLink    String?
+  facebookUrl       String?
+  instagramUrl      String?
+  twitterUrl        String?
+  linkedinUrl       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Blog {
+  id                 Int      @id @default(autoincrement())
+  title              String
+  slug               String   @unique
+  excerpt            String?
+  content            String
+  faqs               Json?
+  coverImage         String?
+  category           String?
+  authorId           Int?
+  isPublished        Boolean  @default(false)
+  seoMetaTitle       String?
+  seoMetaDescription String?
+  seoMetaKeywords    String?
+  seoCanonicalUrl    String?
+  seoIsNoIndex       Boolean  @default(false)
+  seoJsonLdSchema    String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  coverImageAlt      String?
+  customAuthor       String?
+  author             Admin?   @relation(fields: [authorId], references: [id])
+}
+
+model ServiceCategory {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  slug        String  @unique
+  icon        String? @default("User")
+  description String? @db.VarChar(500)
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
+
+  seoMetaTitle       String?
+  seoMetaDescription String?
+  seoMetaKeywords    String?
+  seoCanonicalUrl    String?
+  seoIsNoIndex       Boolean @default(false)
+  seoJsonLdSchema    String?
+  headerTitle        String?
+  headerIntroText    String?
+  sections           Json?
+  faqs               Json?
+
+  options ServiceOption[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Gallery {
+  id            Int      @id @default(autoincrement())
+  categoryName  String   @unique
+  slug          String   @unique
+  description   String?  @db.VarChar(500)
+  isPublished   Boolean  @default(true)
+  featuredImage Json?
+  images        Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum ServiceMode {
+  STORE_VISIT
+  PICKUP_DROP
+}
+
+model ServiceArea {
+  id         Int      @id @default(autoincrement())
+  pincode    String   @unique
+  areaName   String
+  localities String[]
+  isActive   Boolean  @default(true)
+  notes      String?
+  sortOrder  Int      @default(0)
+  leads      Lead[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Lead {
+  id          Int         @id @default(autoincrement())
+  leadNumber  String      @unique // CLZ-1042
+  status      LeadStatus  @default(NEW)
+  serviceMode ServiceMode
+
+  customerName  String
+  customerPhone String
+  customerEmail String?
+
+  // Only for PICKUP_DROP (enforced in NestJS)
+  addressLine   String?
+  locality      String?
+  landmark      String?
+  pincode       String?
+  serviceAreaId Int?
+  serviceArea   ServiceArea? @relation(fields: [serviceAreaId], references: [id])
+  pickupDate    DateTime?
+  pickupSlot    String? // plain text for now, TimeSlot table later
+
+  // Store visit (optional)
+  expectedVisitAt DateTime?
+
+  subtotal     Decimal? @db.Decimal(10, 2)
+  discount     Decimal? @db.Decimal(10, 2)
+  discountType String   @default("FIXED") // FIXED | PERCENTAGE
+  total        Decimal? @db.Decimal(10, 2)
+
+  customerComment String?
+  adminNotes      String?
+  cancelReason    String?
+  assignedToId    String?
+
+  source      String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  landingPage String?
+
+  items          LeadItem[]
+  history        LeadStatusHistory[]
+  supportTickets SupportTicket[]
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  @@index([status])
+  @@index([customerPhone])
+  @@index([createdAt])
+  @@index([serviceMode])
+  @@index([source])
+  @@index([pincode])
+  @@index([pickupDate])
+}
+
+model LeadItem {
+  id          Int      @id @default(autoincrement())
+  leadId      Int
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  serviceId   Int?
+  serviceName String?
+  itemId      Int?
+  itemName    String?
+  quantity    Int
+  unitPrice   Decimal? @db.Decimal(10, 2) // snapshot at booking
+  brand       String?
+  notes       String?
+  images      String[]
+  quotedPrice Decimal? @db.Decimal(10, 2)
+  quoteStatus String   @default("NOT_REQUIRED")
+}
+
+model LeadStatusHistory {
+  id         Int         @id @default(autoincrement())
+  leadId     Int
+  lead       Lead        @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  fromStatus LeadStatus?
+  toStatus   LeadStatus
+  changedBy  String?
+  note       String?
+  createdAt  DateTime    @default(now())
+}
+
+model ServiceOption {
+  id Int @id @default(autoincrement())
+
+  categoryId Int?
+  category   ServiceCategory? @relation(fields: [categoryId], references: [id])
+
+  categoryName  String
+  serviceType   String
+  productTag    String?
+  isActive      Boolean @default(true)
+  basePrice     Float?
+  pricingUnit   String? @default("per piece")
+  offerPrice    Float?
+  isOfferActive Boolean @default(false)
+  description   String?
+  order         Int?
+
+  isCustomPricing  Boolean @default(false)
+  customPriceLabel String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  SALES_AGENT
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  PENDING_QUOTE
+  QUOTED
+  CONFIRMED
+  RECEIVED_AT_STORE
+  PICKED_UP
+  PROCESSING
+  READY
+  OUT_FOR_DELIVERY
+  DELIVERED
+  COLLECTED
+  CANCELLED
+}
+
+enum TicketType {
+  ENQUIRY
+  COMPLAINT
+}
+
+enum TicketStatus {
+  PENDING
+  IN_PROGRESS
+  WAITING_CUSTOMER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum ComplaintCategory {
+  DAMAGE
+  LOST_ITEM
+  DELAY
+  QUALITY
+  BILLING
+  STAFF_BEHAVIOUR
+  OTHER
+}
+
+model SupportTicket {
+  id           Int                @id @default(autoincrement())
+  ticketNumber String             @unique
+  type         TicketType         @default(ENQUIRY)
+  status       TicketStatus       @default(PENDING)
+  priority     TicketPriority     @default(NORMAL)
+  category     ComplaintCategory?
+
+  // Contact
+  name  String
+  phone String
+  email String?
+
+  // Content
+  subject     String?
+  message     String   @db.Text
+  attachments String[]
+
+  // Links
+  leadId          Int?
+  lead            Lead? @relation(fields: [leadId], references: [id])
+  leadItemId      Int?
+  convertedLeadId Int?
+
+  // Handling
+  assignedToId   Int?
+  assignedTo     Admin?    @relation(fields: [assignedToId], references: [id])
+  resolutionNote String?   @db.Text
+  claimAmount    Decimal?  @db.Decimal(10, 2)
+  resolvedAt     DateTime?
+  closedAt       DateTime?
+
+  // Marketing
+  source      String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  landingPage String?
+  ipAddress   String?
+
+  messages  TicketMessage[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([status, type])
+  @@index([phone])
+  @@index([createdAt])
+}
+
+model TicketMessage {
+  id          Int           @id @default(autoincrement())
+  ticketId    Int
+  ticket      SupportTicket @relation(fields: [ticketId], references: [id])
+  authorType  String // CUSTOMER | STAFF
+  authorId    Int? // admin id when STAFF
+  author      Admin?        @relation(fields: [authorId], references: [id])
+  body        String        @db.Text
+  attachments String[]
+  isInternal  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+}
