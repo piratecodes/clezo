@@ -1,0 +1,241 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@plugin "@tailwindcss/typography";
+
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+  preferredStrategy: 'pseudoelements';
+};
+
+
+@utility container {
+  margin-inline: auto;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+  /* This makes all native link clicks smooth */
+  /* background-image: url("data:image/svg+xml,%3Csvg width='12' height='16' viewBox='0 0 12 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 .99C4 .445 4.444 0 5 0c.552 0 1 .45 1 .99v4.02C6 5.555 5.556 6 5 6c-.552 0-1-.45-1-.99V.99zm6 8c0-.546.444-.99 1-.99.552 0 1 .45 1 .99v4.02c0 .546-.444.99-1 .99-.552 0-1-.45-1-.99V8.99z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"); */
+}
+
+@layer base {
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply text-foreground;
+    background-color: var(--color-background);
+    /* Very subtle corner glows + Hollow, Shiny Water Soap Bubbles */
+    background-image: 
+      radial-gradient(circle at top left, var(--color-primary-container) 0%, transparent 35%),
+      radial-gradient(circle at bottom right, var(--color-tertiary-container) 0%, transparent 35%),
+      url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='40' cy='40' r='20' stroke='%2300aee6' stroke-width='1.5' stroke-opacity='0.15'/%3E%3Cpath d='M28 28 A 14 14 0 0 1 48 24' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-opacity='0.8'/%3E%3Ccircle cx='150' cy='80' r='12' stroke='%2300aee6' stroke-width='1' stroke-opacity='0.15'/%3E%3Cpath d='M143 72 A 8 8 0 0 1 155 70' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-opacity='0.8'/%3E%3Ccircle cx='70' cy='150' r='16' stroke='%2300aee6' stroke-width='1.2' stroke-opacity='0.15'/%3E%3Cpath d='M60 140 A 11 11 0 0 1 78 136' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-opacity='0.8'/%3E%3Ccircle cx='180' cy='170' r='6' stroke='%2300aee6' stroke-width='1' stroke-opacity='0.1'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 100% 100%, 100% 100%, 200px 200px;
+    background-attachment: fixed;
+    animation: wobbleBubbles 20s ease-in-out infinite;
+  }
+
+  @keyframes wobbleBubbles {
+    0% { background-position: 0 0, 0 0, 0px 0px; }
+    25% { background-position: 0 0, 0 0, 12px -15px; }
+    50% { background-position: 0 0, 0 0, 2px -5px; }
+    75% { background-position: 0 0, 0 0, -12px -12px; }
+    100% { background-position: 0 0, 0 0, 0px 0px; }
+  }
+
+  html {
+    @apply font-sans;
+  }
+}
+
+::selection {
+  background: #112440;
+  color: #675fdf;
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background: #112440;
+  color: #675fdf;
+  text-shadow: none;
+}
+
+/* Jodit Blog Content Unreset (Fixed for Tailwind Typography) */
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
+  scroll-margin-top: 6rem !important; /* Prevents navbar overlap on anchor links */
+}
+
+.blog-content [style*="font-size"] {
+  font-size: var(--jodit-font-size, inherit) !important;
+}
+
+.blog-content table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.5rem 0 !important;
+}
+
+.blog-content table td,
+.blog-content table th {
+  border: 1px solid #e2e8f0 !important;
+  padding: 0.75rem !important;
+}
+
+.blog-content table th {
+  background-color: #f8fafc !important;
+  font-weight: 700 !important;
+}
+
+.blog-content p {
+  margin-bottom: 1.25rem !important;
+  line-height: 1.7 !important;
+}
+
+.blog-content ul {
+  list-style-type: disc !important;
+  padding-left: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.blog-content ol {
+  list-style-type: decimal !important;
+  padding-left: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.blog-content li {
+  margin-bottom: -5px !important;
+  /* Reduced gap between bullets */
+  display: list-item !important;
+}
+
+/* Tighter gaps for nested sub-points */
+.blog-content ul ul,
+.blog-content ol ol,
+.blog-content ul ol,
+.blog-content ol ul {
+  margin-bottom: 0 !important;
+  margin-top: 0.25rem !important;
+}
+
+.blog-content a {
+  color: #738eb3 !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #3e4c66 !important;
+  text-underline-offset: 4px !important;
+  text-decoration-thickness: 2px !important;
+  transition: all 0.2s ease !important;
+}
+
+.blog-content a:hover {
+  color: #7387ac !important;
+  text-decoration-color: #44505c !important;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+@theme inline {
+  /* Colors - Clezo Express Laundry (Vibrant Light Blue) */
+  --color-surface-tint: #00aee6;
+  --color-surface-bright: #f8fafc;
+  --color-surface-container-high: #e2e8f0;
+  --color-on-tertiary-container: #0c4a6e;
+  --color-surface-variant: #e2e8f0;
+  --color-on-primary-fixed: #002333;
+  --color-surface-dim: #cbd5e1;
+  --color-inverse-on-surface: #f1f5f9;
+  --color-inverse-surface: #1e293b;
+  --color-on-primary-container: #002333;
+  --color-on-primary: #ffffff;
+  --color-secondary: #0284c7;
+  --color-surface-container-low: #f1f5f9;
+  --color-tertiary-fixed-dim: #bae6fd;
+  --color-error: #ef4444;
+  --color-background: #f8fafc;
+  --color-on-secondary: #1e293b;
+  --color-on-tertiary-fixed: #082f49;
+  --color-tertiary-container: #e0f2fe;
+  --color-surface: #f8fafc;
+  --color-on-tertiary: #1e293b;
+  --color-on-background: #94a3b8;
+  --color-tertiary: #0ea5e9;
+  --color-primary-container: #c4ecfa;
+  --color-primary: #00aee6;
+  --color-surface-container-highest: #94a3b8;
+  --color-on-tertiary-fixed-variant: #0369a1;
+  --color-on-secondary-fixed-variant: #0284c7;
+  --color-outline-variant: #cbd5e1;
+  --color-on-surface-variant: #475569;
+  --color-on-secondary-container: #082f49;
+  --color-outline: #94a3b8;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-primary-fixed-variant: #0087b3;
+  --color-error-container: #fee2e2;
+  --color-on-surface: #94a3b8;
+  --color-primary-fixed: #c4ecfa;
+  --color-tertiary-fixed: #e0f2fe;
+  --color-inverse-primary: #7dd3fc;
+  --color-on-secondary-fixed: #082f49;
+  --color-primary-fixed-dim: #7dd3fc;
+  --color-secondary-container: #e0f2fe;
+  --color-secondary-fixed: #bae6fd;
+  --color-on-error-container: #7f1d1d;
+  --color-secondary-fixed-dim: #7dd3fc;
+  --color-surface-container: #f1f5f9;
+  --color-on-error: #ffffff;
+
+  /* Fonts */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+
+  /* Animations */
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-gradient: gradient 8s linear infinite;
+
+  /* Shadcn UI Variable Mappings */
+  --color-ring: var(--color-primary);
+  --color-input: var(--color-outline-variant);
+  --color-border: var(--color-outline-variant);
+  --color-destructive: var(--color-error);
+  --color-accent-foreground: var(--color-on-secondary-container);
+  --color-accent: var(--color-secondary-container);
+  --color-muted-foreground: var(--color-on-surface-variant);
+  --color-muted: var(--color-surface-variant);
+  --color-secondary-foreground: var(--color-on-secondary);
+  --color-primary-foreground: var(--color-on-primary);
+  --color-popover-foreground: var(--color-on-surface);
+  --color-popover: var(--color-surface);
+  --color-card-foreground: var(--color-on-surface);
+  --color-card: var(--color-surface);
+  --color-foreground: var(--color-on-surface);
+  
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --radius: 0.75rem;
+}
