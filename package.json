@@ -9,7 +9,7 @@
     "copy-standalone": "cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
     "start": "next start",
     "serve": "NODE_ENV=production node server.js",
-    "partytown": "partytown copylib public/~pradhanpackersandmovers",
+    "partytown": "partytown copylib public/~clezo",
     "lint": "eslint"
   },
   "dependencies": {
