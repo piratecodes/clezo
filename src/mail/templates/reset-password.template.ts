@@ -92,7 +92,7 @@ export const resetPasswordTemplate = (name: string, resetLink: string) => `
 <body>
   <div class="wrapper">
     <div class="header">
-      <div class="logo-pill">Clezo <span>Services</span></div>
+      <div class="logo-pill">Clezo <span>Express</span></div>
       <h1>Password Reset</h1>
       <p>Secure account recovery process.</p>
     </div>

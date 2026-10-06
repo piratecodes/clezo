@@ -114,7 +114,7 @@ export const welcomeEmailTemplate = (name: string, username: string, role: strin
     <!-- 1. Deep diagonal gradient with dual radial glows -->
     <!-- 5. Logo with glass-pill fallback -->
     <div class="header">
-      <div class="logo-pill">Clezo <span>Services</span></div>
+      <div class="logo-pill">Clezo <span>Express</span></div>
       <h1>Welcome Aboard!</h1>
       <p>Your secure administration account is ready.</p>
     </div>
