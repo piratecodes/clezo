@@ -252,7 +252,7 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
       multiple: false,
       uploadSignature: async (callback, params_to_sign) => {
         try {
-          const res = await fetchClient('/location-pages/cloudinary-signature', { method: 'POST', body: JSON.stringify(params_to_sign) });
+          const res = await fetchClient('/cloudinary-signature', { method: 'POST', body: JSON.stringify(params_to_sign) });
           callback(res.data.signature);
         } catch (err) { toast.error("Signature failed. Check backend."); }
       }

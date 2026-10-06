@@ -24,7 +24,7 @@ export default function TopNav({ setIsSidebarOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
   const loadingBarRef = useRef(null);
-  const { user: adminData, logout } = useAuth();
+  const { user: adminData, logout, checkAuth } = useAuth();
   
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isActiveDevicesOpen, setIsActiveDevicesOpen] = useState(false);
@@ -130,7 +130,7 @@ export default function TopNav({ setIsSidebarOpen }) {
         </div>
       </header>
 
-      <MyAccountModal isOpen={isAccountModalOpen} onProfileUpdate={(newPic) => { if (newPic) setProfilePic(newPic); }} setIsOpen={setIsAccountModalOpen} />
+      <MyAccountModal isOpen={isAccountModalOpen} onProfileUpdate={() => checkAuth()} setIsOpen={setIsAccountModalOpen} />
       <ActiveDevicesModal isOpen={isActiveDevicesOpen} setIsOpen={setIsActiveDevicesOpen} />
       <ChangePasswordModal isOpen={isChangePasswordOpen} setIsOpen={setIsChangePasswordOpen} />
     </>

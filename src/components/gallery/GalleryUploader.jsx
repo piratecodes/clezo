@@ -55,7 +55,7 @@ export default function GalleryAlbumFormDrawer({ isOpen, setIsOpen, albumData, o
         // 🌟 MAGIC CALLBACK FIX: Signs the parameters exactly when needed!
         uploadSignature: async (callback, params_to_sign) => {
           try {
-            const res = await fetchClient('/location-pages/cloudinary-signature', {
+            const res = await fetchClient('/cloudinary-signature', {
               method: 'POST',
               body: JSON.stringify(params_to_sign)
             });
