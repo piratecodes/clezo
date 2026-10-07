@@ -15,6 +15,7 @@ export default function Nav() {
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredPath, setHoveredPath] = useState('');
+  const [isLogoHovered, setIsLogoHovered] = useState(false);
   
   const pathname = usePathname();
   const isLandingPage = pathname === '/';
@@ -71,18 +72,56 @@ export default function Nav() {
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${(!isLandingPage || isScrolled) ? 'bg-white/30 backdrop-blur-xl py-3 border-b border-white/40 shadow-sm' : 'bg-transparent py-4'}`} role="navigation" aria-label="Primary Navigation">
-      <div className="container flex items-center justify-between px-4 relative">
+      <div className="container flex items-center justify-between px-4">
         
         {/* LOGO */}
-        <Link href="/" className="flex items-center space-x-3 shrink-0">
-          <Image 
-            src={icon} 
-            alt="Clezo Logo" 
-            className="h-8 w-auto object-contain filter brightness-200" 
-            draggable={false} 
-            priority
-          />
-          <span className="self-center text-xl text-on-surface font-black whitespace-nowrap tracking-tight uppercase">Clezo</span>
+        <Link 
+          href="/" 
+          className="flex items-center space-x-2 shrink-0 group"
+          onMouseEnter={() => setIsLogoHovered(true)}
+          onMouseLeave={() => setIsLogoHovered(false)}
+        >
+          <motion.div
+             animate={isLogoHovered ? { rotate: [0, -15, 15, -15, 0], scale: 1.1 } : { rotate: 0, scale: 1 }}
+             transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <Image 
+              src={icon} 
+              alt="Clezo Logo" 
+              className="h-8 w-auto object-contain filter brightness-200" 
+              draggable={false} 
+              priority
+            />
+          </motion.div>
+          <div className="relative overflow-hidden px-1 py-0.5 flex items-center">
+            {/* Base Text */}
+            <span className={`relative z-10 self-center text-xl font-black whitespace-nowrap tracking-widest uppercase transition-colors duration-500 ${isLogoHovered ? 'text-primary/10' : 'text-on-surface'}`}>
+              Clezo
+            </span>
+            
+            {/* Magical Liquid Wave Fill */}
+            <motion.span
+              className="absolute inset-0 z-20 self-center text-xl font-black whitespace-nowrap tracking-widest uppercase bg-clip-text text-transparent pointer-events-none px-1 py-0.5 drop-shadow-sm"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Cpath fill='%237dd3fc' opacity='0.7' d='M0,45 Q50,65 100,45 T200,45 L200,150 L0,150 Z' /%3E%3Cpath fill='%2300aee6' d='M0,35 Q50,15 100,35 T200,35 L200,150 L0,150 Z' /%3E%3C/svg%3E")`,
+                backgroundSize: '60px 150%',
+                backgroundRepeat: 'repeat-x',
+              }}
+              initial={false}
+              animate={{ 
+                backgroundPositionX: ['0px', '-60px'],
+                backgroundPositionY: isLogoHovered ? '-5px' : '20px',
+                opacity: isLogoHovered ? 1 : 0
+              }}
+              transition={{ 
+                backgroundPositionX: { ease: "linear", duration: 1, repeat: Infinity },
+                backgroundPositionY: { duration: 0.6, type: "spring", bounce: 0.4 },
+                opacity: { duration: 0.3 }
+              }}
+            >
+              Clezo
+            </motion.span>
+          </div>
         </Link>
 
         {/* --- DESKTOP ISLAND NAVIGATION --- */}
@@ -220,7 +259,7 @@ export default function Nav() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 -translate-y-2"
                 >
-                  <DisclosurePanel className="fixed top-full left-0 w-full bg-[#00080e]/95 backdrop-blur-xl border-b border-white/10 shadow-2xl z-110 h-[calc(100vh-72px)] overflow-y-auto pb-20">
+                  <DisclosurePanel className="absolute top-full left-0 w-full bg-on-primary-fixed/95 backdrop-blur-xl border-b border-white/10 shadow-2xl z-110 h-[calc(100vh-72px)] overflow-y-auto pb-20">
                     <div className="p-6 space-y-2">
                       
                       <Link href="/about" onClick={() => close()} className="block text-xl font-bold text-white border-b border-white/10 pb-3">About</Link>

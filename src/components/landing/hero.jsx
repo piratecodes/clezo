@@ -9,7 +9,7 @@ export default function HeroSection() {
 
   return (
     <div 
-      className="relative w-full min-h-screen overflow-hidden flex items-end justify-start pb-40 md:pb-56 bg-[#001b2e]"
+      className="relative w-full min-h-screen overflow-hidden flex items-center md:items-end justify-start pt-20 md:pt-0 pb-24 md:pb-56 bg-on-primary-fixed"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -19,9 +19,9 @@ export default function HeroSection() {
         animate={{ scale: isHovered ? 1.1 : 1 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        <h1 className="text-[20rem] font-black text-primary whitespace-nowrap opacity-30 select-none">
+        <span className="text-[20rem] font-black text-primary whitespace-nowrap opacity-30 select-none">
           CLEZO
-        </h1>
+        </span>
       </motion.div>
 
       {/* Background Video with Transparency and Hover Scale */}
@@ -94,7 +94,7 @@ export default function HeroSection() {
           <path d="M0,70 C250,120 450,20 650,70 C850,120 1050,20 1200,70 L1200,120 L0,120 Z" className="fill-white/40"></path>
           
           {/* Layer 3 (Front, Shortest, Solid Base) */}
-          <path d="M0,90 C300,140 500,40 700,90 C900,140 1100,40 1200,90 L1200,120 L0,120 Z" className="fill-[#f8fafc]"></path>
+          <path d="M0,90 C300,140 500,40 700,90 C900,140 1100,40 1200,90 L1200,120 L0,120 Z" className="fill-background"></path>
         </svg>
       </div>
 

@@ -75,15 +75,15 @@ export default function WhyChooseUsSection() {
       <div className="container">
         
         {/* Animated Title Header */}
-        <div className="flex flex-col md:flex-row items-end justify-between gap-8 mb-16 relative z-10">
-          <div className="max-w-2xl">
+        <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-left justify-between gap-6 md:gap-8 mb-12 md:mb-16 relative z-10 px-4 md:px-8 lg:px-0">
+          <div className="max-w-2xl flex flex-col items-center md:items-start">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/40 backdrop-blur-md border border-white/50 rounded-full font-bold text-xs uppercase tracking-widest shadow-sm mb-6"
+              className="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-white/40 backdrop-blur-md border border-white/50 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-widest shadow-sm mb-4 md:mb-6"
             >
-              <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-primary animate-ping"></span>
               <span className="text-on-surface">Interactive Experience</span>
             </motion.div>
 
@@ -91,9 +91,9 @@ export default function WhyChooseUsSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl lg:text-6xl font-black text-on-surface tracking-tight leading-[1.1]"
+              className="text-3xl md:text-5xl lg:text-6xl font-black text-on-surface tracking-tight leading-[1.1]"
             >
-              Why Clezo Is The <br/>
+              Why Clezo Is The <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Gold Standard.</span>
             </motion.h2>
           </div>
@@ -102,14 +102,14 @@ export default function WhyChooseUsSection() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-on-surface-variant font-medium text-lg max-w-sm pb-2"
+            className="text-on-surface-variant font-medium text-sm md:text-lg max-w-sm pb-2"
           >
             Hover over the cards below to explore how we elevate fabric and appliance care beyond the ordinary.
           </motion.p>
         </div>
 
         {/* Horizontal Expansion Accordion */}
-        <div className="flex flex-col md:flex-row h-[800px] md:h-[600px] w-full gap-4">
+        <div className="flex flex-col md:flex-row h-[700px] md:h-[600px] w-full gap-3 md:gap-4 px-4 md:px-8 lg:px-0">
           {features.map((feature, index) => {
             const isActive = activeIndex === index;
             const Icon = feature.icon;

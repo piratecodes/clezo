@@ -12,6 +12,7 @@ import Particles from '@/components/particles'
 import Nav from "@/components/nav";
 import Floating from "@/components/FloatingContact";
 import Footer from "@/components/footer";
+import ClezoBot from "@/components/ClezoBot";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
@@ -95,6 +96,7 @@ export default function RootLayout({ children }) {
         <Nav />
         {children}
         <Toaster position="top-right" />
+        <ClezoBot />
         <Floating />
         <Footer />
       </body>
