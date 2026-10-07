@@ -17,7 +17,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     { name: 'Command Center', path: '/', icon: Activity, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
     // { name: 'CRM (Leads)', path: '/crm-panel', icon: Users, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
     { name: 'Fleet & Services', path: '/services', icon: PackageSearch, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
-    { name: 'Service Areas', path: '/network', icon: MapPin, allowed: ['SUPER_ADMIN', 'ADMIN'] },
+    // { name: 'Service Areas', path: '/network', icon: MapPin, allowed: ['SUPER_ADMIN', 'ADMIN'] },
     { name: 'SEO Pages', path: '/seo-pages', icon: FileText, allowed: ['SUPER_ADMIN', 'ADMIN'] }, 
     { name: 'Blogs', path: '/blogs', icon: BookOpen, allowed: ['SUPER_ADMIN', 'ADMIN'] }, 
     { name: 'Media Gallery', path: '/gallery', icon: ImageIcon, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
