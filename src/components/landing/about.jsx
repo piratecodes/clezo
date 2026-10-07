@@ -123,7 +123,7 @@ export default function AboutSection() {
             />
             
             <h3 className="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary drop-shadow-sm mb-2 group-hover:scale-110 transition-transform duration-500">
-              45+
+              5+
             </h3>
             <p className="text-[#020b14]/70 font-bold uppercase tracking-[0.2em] text-xs">
               Years of <br/> <span className="text-[#020b14]">Excellence</span>
