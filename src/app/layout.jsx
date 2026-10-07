@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 import "@/style/globals.css";
 import { Partytown } from "@qwik.dev/partytown/react";
 
-import Threads from "@/components/Threads"
 import Particles from '@/components/particles'
 
 //Header & footer Files to add in layout.jsx
