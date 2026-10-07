@@ -384,7 +384,7 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
                         </div>
                         <div>
                           <label className="block text-sm font-bold text-slate-300 mb-1">Meta Keywords</label>
-                          <input type="text" className="w-full p-3 bg-black/40 border border-white/10 rounded-xl focus:ring-1 focus:ring-primary outline-none text-white transition-all placeholder-slate-500" value={formData.metaKeywords} onChange={(e) => setFormData({...formData, metaKeywords: e.target.value})} placeholder="e.g. packers and movers, relocation (separate by comma)" />
+                          <input type="text" className="w-full p-3 bg-black/40 border border-white/10 rounded-xl focus:ring-1 focus:ring-primary outline-none text-white transition-all placeholder-slate-500" value={formData.metaKeywords} onChange={(e) => setFormData({...formData, metaKeywords: e.target.value})} placeholder="e.g. deep cleaning, home sanitization (separate by comma)" />
                         </div>
                         <div>
                            <label className="block text-sm font-bold text-slate-300 mb-1">JSON-LD Schema (Advanced)</label>
@@ -410,7 +410,7 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
                         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">3. Main Header</h3>
                         <div>
                           <label className="block text-sm font-bold text-slate-300 mb-1">Page H1 Title</label>
-                          <input type="text" className="w-full p-3 bg-black/40 border border-white/10 rounded-xl focus:ring-1 focus:ring-primary outline-none font-bold text-lg text-white transition-all placeholder-slate-500" value={formData.headerTitle} onChange={(e) => setFormData({...formData, headerTitle: e.target.value})} placeholder="e.g. Best Packers and Movers in Kolkata" />
+                          <input type="text" className="w-full p-3 bg-black/40 border border-white/10 rounded-xl focus:ring-1 focus:ring-primary outline-none font-bold text-lg text-white transition-all placeholder-slate-500" value={formData.headerTitle} onChange={(e) => setFormData({...formData, headerTitle: e.target.value})} placeholder="e.g. Best Deep Cleaning Services in Mumbai" />
                         </div>
                         <div>
                           <label className="block text-sm font-bold text-slate-300 mb-1">Introductory Paragraph</label>
@@ -572,7 +572,7 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
                                         className="w-full p-2.5 bg-black/40 border border-white/10 rounded-lg outline-none text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-slate-600" 
                                         value={section.image?.alt || ''} 
                                         onChange={(e) => updateSection(sIndex, 'image', 'alt', e.target.value)} 
-                                        placeholder="e.g. Packers loading truck in local neighborhood" 
+                                        placeholder="e.g. Clezo professionals deep cleaning a modern living room" 
                                       />
                                       <p className="text-[10px] text-slate-500 mt-1">Briefly describe the image for screen readers and Google Images.</p>
                                     </div>
