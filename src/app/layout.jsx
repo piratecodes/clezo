@@ -6,13 +6,14 @@ import "@/style/globals.css";
 import { Partytown } from "@qwik.dev/partytown/react";
 
 import Particles from '@/components/particles'
+import FacebookPixel from '@/components/FacebookPixel';
 
 //Header & footer Files to add in layout.jsx
 import Nav from "@/components/nav";
 import Floating from "@/components/FloatingContact";
 import Footer from "@/components/footer";
 import ClezoBot from "@/components/ClezoBot";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -97,6 +98,7 @@ export default function RootLayout({ children }) {
         <Toaster position="top-right" />
         <ClezoBot />
         <Floating />
+        <FacebookPixel />
         <Footer />
       </body>
     </html>
