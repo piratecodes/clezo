@@ -6,7 +6,6 @@ import "@/style/globals.css";
 import { Partytown } from "@qwik.dev/partytown/react";
 
 import Particles from '@/components/particles'
-import MetaPixel from '@/utils/MetaPixel';
 
 //Header & footer Files to add in layout.jsx
 import Nav from "@/components/nav";
@@ -98,7 +97,6 @@ export default function RootLayout({ children }) {
         <Toaster position="top-right" />
         <ClezoBot />
         <Floating />
-        <MetaPixel />
         <Footer />
       </body>
     </html>
