@@ -6,7 +6,7 @@ import "@/style/globals.css";
 import { Partytown } from "@qwik.dev/partytown/react";
 
 import Particles from '@/components/particles'
-import FacebookPixel from '@/components/FacebookPixel';
+import FacebookPixel from '@/utils/FacebookPixel';
 
 //Header & footer Files to add in layout.jsx
 import Nav from "@/components/nav";
