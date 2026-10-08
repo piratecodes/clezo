@@ -26,12 +26,15 @@ import SupportCenterPage from '@/pages/SupportCenterPage.jsx'
 import SeoPages from '@/pages/SeoPages.jsx'
 import ServiceAreasPage from '@/pages/ServiceAreasPage.jsx'
 import CommandCenterPage from '@/pages/CommandCenterPage.jsx'
+import NotFoundPage from '@/pages/NotFoundPage.jsx'
+import ServerErrorPage from '@/pages/ServerErrorPage.jsx'
 
 const router = createBrowserRouter([
   {
     // --- THE GUEST ZONE ---
     // Only logged-out users can access these routes
     element: <GuestGuard />,
+    errorElement: <ServerErrorPage />,
     children: [
       {
         path: '/login',
@@ -51,6 +54,7 @@ const router = createBrowserRouter([
     // --- THE PROTECTED ZONE ---
     // Only logged-in users can access these routes
     element: <AuthGuard />,
+    errorElement: <ServerErrorPage />,
     children: [
       {
         element: <DashboardLayout />, 
@@ -103,6 +107,10 @@ const router = createBrowserRouter([
         ]
       }
     ]
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />
   }
 ])
 
