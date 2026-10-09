@@ -189,12 +189,19 @@ export default function Nav() {
                 leaveTo="opacity-0 translate-y-1"
               >
                 <div className="absolute top-full left-1/2 -translate-x-1/2 z-50 mt-4 w-64 px-4 sm:px-0">
-                  <div className="overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] bg-white border border-slate-100 py-2">
+                  <div className="overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] bg-white border border-slate-100">
+                    <Link
+                      href="/services"
+                      onClick={() => setIsDesktopMenuOpen(false)}
+                      className="block px-5 py-3 text-sm font-black text-primary bg-primary/5 hover:bg-primary/10 transition-colors border-b border-slate-100"
+                    >
+                      All Services
+                    </Link>
                     {services.length > 0 ? (
                       services.map((item) => (
                         <Link
                           key={item.slug}
-                          href={`/${item.slug}`}
+                          href={`/services/${item.slug}`}
                           onClick={() => setIsDesktopMenuOpen(false)}
                           className="block px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors"
                         >
@@ -273,11 +280,18 @@ export default function Nav() {
                             </DisclosureButton>
                             
                             <DisclosurePanel className="mt-4 ml-2 space-y-3 border-l-2 border-white/10 pl-4 py-2">
+                              <Link 
+                                href="/services"
+                                onClick={() => close()}
+                                className="block text-base font-black text-primary hover:text-white"
+                              >
+                                All Services
+                              </Link>
                               {services.length > 0 ? (
                                 services.map(s => (
                                   <Link 
                                     key={s.slug} 
-                                    href={`/${s.slug}`}
+                                    href={`/services/${s.slug}`}
                                     onClick={() => close()}
                                     className="block text-base font-semibold text-gray-400 hover:text-white"
                                   >

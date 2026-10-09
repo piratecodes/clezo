@@ -272,9 +272,9 @@ export default function ContactClient({ contactData }) {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6"
           >
-            <span className="text-slate-800">Contact</span>{' '}
+            <span className="text-slate-800">Get in</span>{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500 relative inline-block">
-              Us
+              Touch
               <motion.span 
                 initial={{ width: 0 }} 
                 animate={{ width: '100%' }} 
@@ -289,7 +289,7 @@ export default function ContactClient({ contactData }) {
             transition={{ delay: 0.2, duration: 0.4 }}
             className="text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed"
           >
-            Experience premium garment care and lightning-fast support. We're here to help you <span className="font-bold text-primary">every step of the way</span>.
+            Reach out to us for inquiries, feedback, or to schedule a service. Our friendly team is always ready to <span className="font-bold text-primary">assist you</span>.
           </motion.p>
         </div>
       </div>

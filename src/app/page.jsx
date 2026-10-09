@@ -4,6 +4,7 @@ import HeroSection from "@/components/landing/hero";
 import SupportBox from "@/components/landing/SupportBox";
 // import TrustBadges from "@/components/landing/TrustBadges";
 import AboutSection from "@/components/landing/about";
+import CsrBanner from "@/components/landing/CsrBanner";
 import ServicesSection from "@/components/landing/service";
 // import HowItWorksSection from "@/componant/landing/howto";
 import WhyChooseUsSection from "@/components/landing/whyWeBest";
@@ -22,6 +23,7 @@ export default function Home() {
       <main role="main" className="relative">
         {/* <TrustBadges /> */}
         <AboutSection />
+        <CsrBanner />
         {/* <LeadGenerationForm /> */}
         <SupportBox />
         <ServicesSection />

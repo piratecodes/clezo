@@ -37,7 +37,7 @@ export default async function BlogsPage() {
             Clezo <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary drop-shadow-sm">Insights</span>
           </h1>
           <p className="text-lg md:text-xl font-medium text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-            Expert advice, comprehensive care guides, and the latest news from the standard in premium hygiene and maintenance.
+            Stay informed and up-to-date with our blog. Gain access to laundry tips, fashion insights, cleaning hacks, and industry news curated by our experts.
           </p>
         </div>
       </div>

@@ -61,13 +61,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           
           {/* Brand & Socials */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             <Link href="/" className="inline-block">
               <span className="text-3xl font-black text-white uppercase tracking-tighter">CLEZO</span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-400 font-medium">
               Join thousands of satisfied clients who trust Clezo for their daily hygiene, product, and management needs.
             </p>
+            <div className="inline-flex items-center gap-2 p-2 bg-white/5 border border-white/10 rounded-lg text-[11px] uppercase tracking-widest font-bold text-slate-300 w-fit shadow-sm">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+              <span>Open 7 Days • 8 AM - 10 PM</span>
+            </div>
             <div className="flex items-center gap-4 mt-2">
               {contactData.facebookUrl && (
                 <a href={contactData.facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-slate-400 hover:text-primary transition-colors hover:scale-110 transform">
