@@ -36,23 +36,23 @@ export default function ServicesClient() {
   ];
 
   return (
-    <main className="min-h-screen pt-24 pb-32 overflow-hidden bg-transparent">
+    <main className="min-h-screen pb-32 overflow-hidden bg-transparent">
       
       {/* 1. IMPRESSIVE HERO SECTION */}
-      <section className="relative py-20 md:py-32 overflow-hidden border-b border-slate-200/50">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden border-b border-slate-200/50">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] mix-blend-multiply"
+            className="absolute -top-40 -left-40 w-150 h-150 bg-primary/20 rounded-full blur-[100px] mix-blend-multiply"
           />
           <motion.div
             animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute top-40 -right-20 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px] mix-blend-multiply"
+            className="absolute top-40 -right-20 w-125 h-125 bg-secondary/20 rounded-full blur-[100px] mix-blend-multiply"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)]" />
         </div>
 
         <div className="container relative z-10 px-4">
@@ -63,7 +63,7 @@ export default function ServicesClient() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary shadow-sm mb-6 relative overflow-hidden group"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+              <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
               <Sparkles size={16} className="animate-pulse" />
               <span className="text-xs font-black uppercase tracking-widest">Premium Garment & Home Care</span>
             </motion.div>
@@ -75,7 +75,7 @@ export default function ServicesClient() {
               className="text-5xl md:text-6xl lg:text-[4.5rem] font-black text-slate-800 leading-[1.1] tracking-tight mb-8"
             >
               The New Standard of <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary drop-shadow-sm">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary drop-shadow-sm">
                 Professional Cleaning
               </span>
             </motion.h1>
@@ -103,27 +103,27 @@ export default function ServicesClient() {
           <div className="flex flex-col md:flex-row items-stretch justify-center gap-6 lg:gap-8 max-w-5xl mx-auto relative z-10">
             
             {/* The String (Desktop: Horizontal) */}
-            <div className="hidden md:block absolute top-[4.5rem] left-[10%] right-[10%] h-[2px] bg-slate-200/60 z-0 rounded-full">
+            <div className="hidden md:block absolute top-18 left-[10%] right-[10%] h-0.5 bg-slate-200/60 z-0 rounded-full">
                {/* Moving Energy Particle 1 */}
                <motion.div 
                  animate={{ left: ["0%", "100%"] }}
                  transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-                 className="absolute top-1/2 -translate-y-1/2 w-16 h-[3px] bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_15px_rgba(0,174,230,0.8)] rounded-full"
+                 className="absolute top-1/2 -translate-y-1/2 w-16 h-0.75 bg-linear-to-r from-transparent via-primary to-transparent shadow-[0_0_15px_rgba(0,174,230,0.8)] rounded-full"
                />
                {/* Moving Energy Particle 2 */}
                <motion.div 
                  animate={{ left: ["0%", "100%"] }}
                  transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.25 }}
-                 className="absolute top-1/2 -translate-y-1/2 w-24 h-[3px] bg-gradient-to-r from-transparent via-secondary to-transparent shadow-[0_0_20px_rgba(150,50,230,0.8)] rounded-full"
+                 className="absolute top-1/2 -translate-y-1/2 w-24 h-0.75 bg-linear-to-r from-transparent via-secondary to-transparent shadow-[0_0_20px_rgba(150,50,230,0.8)] rounded-full"
                />
             </div>
 
             {/* The String (Mobile: Vertical) */}
-            <div className="md:hidden absolute top-[5%] bottom-[5%] left-1/2 -translate-x-1/2 w-[2px] bg-slate-200/60 z-0 rounded-full">
+            <div className="md:hidden absolute top-[5%] bottom-[5%] left-1/2 -translate-x-1/2 w-0.5 bg-slate-200/60 z-0 rounded-full">
                <motion.div 
                  animate={{ top: ["0%", "100%"] }}
                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                 className="absolute left-1/2 -translate-x-1/2 w-[3px] h-20 bg-gradient-to-b from-transparent via-primary to-transparent shadow-[0_0_15px_rgba(0,174,230,0.8)] rounded-full"
+                 className="absolute left-1/2 -translate-x-1/2 w-0.75 h-20 bg-linear-to-b from-transparent via-primary to-transparent shadow-[0_0_15px_rgba(0,174,230,0.8)] rounded-full"
                />
             </div>
 
@@ -177,10 +177,10 @@ export default function ServicesClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: (index % 3) * 0.1, type: "spring", stiffness: 100 }}
-                className="group flex flex-col bg-white/60 backdrop-blur-2xl rounded-3xl border border-white/80 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative p-6 min-h-[300px]"
+                className="group flex flex-col bg-white/60 backdrop-blur-2xl rounded-3xl border border-white/80 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative p-6 min-h-75"
               >
                 {/* Animated Background Gradients & Orbs */}
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 group-hover:to-primary/10 transition-colors duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-br from-transparent via-transparent to-primary/5 group-hover:to-primary/10 transition-colors duration-500 pointer-events-none" />
                 
                 <motion.div 
                   animate={{ y: [-5, 5, -5], scale: [1, 1.05, 1] }}
@@ -205,12 +205,12 @@ export default function ServicesClient() {
                 </div>
                 
                 {/* Text Content */}
-                <div className="relative z-10 flex-grow flex flex-col">
+                <div className="relative z-10 grow flex flex-col">
                   <h3 className="text-xl font-bold text-slate-800 mb-2 tracking-tight group-hover:text-primary transition-colors duration-300">
                     {service.name}
                   </h3>
                   
-                  <p className="text-slate-500 font-medium text-sm leading-relaxed flex-grow">
+                  <p className="text-slate-500 font-medium text-sm leading-relaxed grow">
                     {service.description || `Professional and premium care for all your ${service.name.toLowerCase()} needs.`}
                   </p>
                 </div>
@@ -219,10 +219,10 @@ export default function ServicesClient() {
                 <div className="relative z-10 mt-6">
                   <Link 
                     href={`/services/${service.slug}`}
-                    className="relative flex items-center justify-between w-full px-5 py-3 bg-slate-50 group-hover:bg-primary text-slate-600 group-hover:text-white rounded-2xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-sm group-hover:shadow-[0_8px_25px_rgba(0,174,230,0.3)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(0,174,230,0.5)] group/btn overflow-hidden"
+                    className="relative flex items-center justify-between w-full px-5 py-3 bg-slate-50/50 group-hover:bg-primary/50 text-slate-600 group-hover:text-white rounded-2xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-sm group-hover:shadow-[0_8px_25px_rgba(0,174,230,0.3)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(0,174,230,0.5)] group/btn overflow-hidden"
                   >
                     {/* Hover Gradient Sweep Layer */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-secondary via-primary to-secondary translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500 ease-out z-0" />
+                    <div className="absolute inset-0 bg-linear-to-r from-secondary via-primary to-secondary -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out z-0" />
                     
                     <span className="relative z-10">Explore Service</span>
                     <div className="relative z-10 w-8 h-8 rounded-full bg-slate-200/50 group-hover:bg-white/20 flex items-center justify-center transition-colors duration-300 group-hover/btn:bg-white/40">
