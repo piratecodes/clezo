@@ -1,8 +1,14 @@
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild, Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { Fragment, useState, useEffect } from 'react';
-import { X, Save, Loader2, ShieldCheck } from 'lucide-react';
+import { X, Save, Loader2, ShieldCheck, ChevronDown, Check } from 'lucide-react';
 import { fetchClient } from '@/api/fetchClient';
 import toast from 'react-hot-toast';
+
+const ROLES = [
+  { id: 'SALES_AGENT', name: 'Sales Agent' },
+  { id: 'ADMIN', name: 'Manager (Admin)' },
+  { id: 'SUPER_ADMIN', name: 'Super Admin (Boss)' }
+];
 
 export default function AddStaffModal({ isOpen, setIsOpen, staffData, onSuccess }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +67,7 @@ export default function AddStaffModal({ isOpen, setIsOpen, staffData, onSuccess 
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <TransitionChild as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-              <DialogPanel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-on-primary-fixed/95 backdrop-blur-3xl shadow-[0_20px_60px_rgba(0,174,230,0.15)] border border-white/10 text-left align-middle transition-all relative">
+              <DialogPanel className="w-full max-w-lg transform rounded-2xl bg-on-primary-fixed/95 backdrop-blur-3xl shadow-[0_20px_60px_rgba(0,174,230,0.15)] border border-white/10 text-left align-middle transition-all relative overflow-visible">
                 
                 {/* Modal Sky Glare */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[60px] pointer-events-none -z-10 rounded-full"></div>
@@ -100,11 +106,44 @@ export default function AddStaffModal({ isOpen, setIsOpen, staffData, onSuccess 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-slate-300 mb-1">System Role <span className="text-primary">*</span></label>
-                      <select required className="w-full p-3 bg-slate-900 border border-white/10 rounded-xl focus:ring-1 focus:ring-primary focus:border-primary transition-all text-white font-bold outline-none" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})}>
-                        <option value="SALES_AGENT">Sales Agent</option>
-                        <option value="ADMIN">Manager (Admin)</option>
-                        <option value="SUPER_ADMIN">Super Admin (Boss)</option>
-                      </select>
+                      <Listbox value={formData.role} onChange={(val) => setFormData({...formData, role: val})}>
+                        <div className="relative">
+                          <ListboxButton className="relative w-full cursor-default rounded-xl bg-black/20 border border-white/10 py-3 pl-3 pr-10 text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-white sm:text-sm font-bold transition-all shadow-sm">
+                            <span className="block truncate">{ROLES.find(r => r.id === formData.role)?.name || 'Select Role'}</span>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
+                              <ChevronDown size={18} aria-hidden="true" />
+                            </span>
+                          </ListboxButton>
+                          <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+                            <ListboxOptions className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-xl bg-slate-900 border border-white/10 text-base shadow-2xl focus:outline-none sm:text-sm ring-1 ring-black/5 p-1">
+                              {ROLES.map((role) => (
+                                <ListboxOption
+                                  key={role.id}
+                                  className={({ focus }) =>
+                                    `relative cursor-default select-none py-2.5 pl-10 pr-4 transition-colors rounded-lg ${
+                                      focus ? 'bg-primary/20 text-white' : 'text-slate-300'
+                                    }`
+                                  }
+                                  value={role.id}
+                                >
+                                  {({ selected }) => (
+                                    <>
+                                      <span className={`block truncate ${selected ? 'font-bold text-primary' : 'font-medium'}`}>
+                                        {role.name}
+                                      </span>
+                                      {selected ? (
+                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                          <Check size={16} aria-hidden="true" />
+                                        </span>
+                                      ) : null}
+                                    </>
+                                  )}
+                                </ListboxOption>
+                              ))}
+                            </ListboxOptions>
+                          </Transition>
+                        </div>
+                      </Listbox>
                     </div>
                     
                     {/* Only show password if we are creating a NEW user */}
