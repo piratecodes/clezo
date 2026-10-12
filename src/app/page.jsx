@@ -10,6 +10,7 @@ import ServicesSection from "@/components/landing/service";
 import WhyChooseUsSection from "@/components/landing/whyWeBest";
 import TestimonialsSection from "@/components/landing/testimonials";
 import FaqSection from "@/components/landing/faq";
+import AppDownloadSection from "@/components/landing/AppDownloadSection";
 
 export const metadata = {
   title: 'Clezo | Premium Fashion',
@@ -31,6 +32,7 @@ export default function Home() {
         <WhyChooseUsSection />
         <TestimonialsSection />
         <FaqSection />
+        <AppDownloadSection />
       </main>
     </React.Fragment>
   );

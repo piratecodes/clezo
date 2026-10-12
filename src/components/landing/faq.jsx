@@ -93,7 +93,7 @@ export default function FaqSection() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="text-4xl md:text-5xl lg:text-7xl font-black text-on-surface tracking-tighter leading-tight"
             >
-              Common <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Questions.</span>
+              Common <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Questions</span>
             </motion.h2>
           </div>
 

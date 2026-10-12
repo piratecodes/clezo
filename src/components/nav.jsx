@@ -5,29 +5,85 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Transition, Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import { ChevronDown, MapPin, Menu, X, Shirt, User, Baby, Laptop } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 import icon from '@/assets/icon.png';
 
 export default function Nav() {
   const [services, setServices] = useState([]);
-  const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredPath, setHoveredPath] = useState('');
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   
   const pathname = usePathname();
-  const isLandingPage = pathname === '/';
+  const isTransparentNavbarPage = pathname === '/' || pathname === '/offers';
   
   const servicesMenuRef = useRef(null);
+  const hoverTimeoutRef = useRef(null);
+
+  const isDesktopMenuOpen = isPinned || isHovered;
 
   const getActivePath = (p) => {
     if (p.startsWith('/blogs')) return '/blogs';
     if (p.startsWith('/photo-gallery')) return '/photo-gallery';
-    if (p === '/' || p === '/about' || p === '/contact') return p;
+    if (p.startsWith('/offers')) return '/offers';
+    if (p === '/' || p === '/about' || p === '/contact' || p === '/csr') return p;
     return '/services';
   };
+
+  const closeMenu = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsPinned(false);
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsHovered(true);
+    setHoveredPath('/services');
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+      if (!isPinned) {
+        setHoveredPath(getActivePath(pathname));
+      }
+    }, 150);
+  };
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    if (isPinned) {
+      setIsPinned(false);
+      setIsHovered(false);
+      setHoveredPath(getActivePath(pathname));
+    } else {
+      setIsPinned(true);
+      setIsHovered(true);
+      setHoveredPath('/services');
+    }
+  };
+
+  useEffect(() => {
+    closeMenu();
+  }, [pathname]);
 
   useEffect(() => {
     if (isDesktopMenuOpen) {
@@ -59,7 +115,7 @@ export default function Nav() {
     // Close menu when clicking outside
     const handleClickOutside = (event) => {
       if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target)) {
-        setIsDesktopMenuOpen(false);
+        closeMenu();
       }
     };
 
@@ -67,12 +123,15 @@ export default function Nav() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
     };
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${(!isLandingPage || isScrolled) ? 'bg-white/30 backdrop-blur-xl py-3 border-b border-white/40 shadow-sm' : 'bg-transparent py-4'}`} role="navigation" aria-label="Primary Navigation">
-      <div className="container flex items-center justify-between px-4">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white/30 backdrop-blur-xl py-3 border-b border-white/40 shadow-sm' : 'bg-transparent py-4'}`} role="navigation" aria-label="Primary Navigation">
+      <div className="container flex items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* LOGO */}
         <Link 
@@ -163,16 +222,21 @@ export default function Nav() {
             </li>
 
             {/* SERVICES MEGA MENU (DESKTOP) */}
-            <li className="relative z-10" ref={servicesMenuRef}>
+            <li 
+              className="relative z-10" 
+              ref={servicesMenuRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               <button 
-                onClick={() => setIsDesktopMenuOpen(!isDesktopMenuOpen)}
-                onMouseEnter={() => setHoveredPath('/services')}
-                className={`relative flex items-center gap-1.5 px-6 py-2 rounded-full text-sm font-bold outline-none transition-colors duration-300 ${(hoveredPath === '/services' || isDesktopMenuOpen) ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
+                type="button"
+                onClick={handleButtonClick}
+                className={`relative flex items-center gap-1.5 px-6 py-2 rounded-full text-sm font-bold outline-none transition-colors duration-300 ${hoveredPath === '/services' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
                 <span className="relative z-10 flex items-center gap-1.5">
                   Services <ChevronDown size={14} className={`transition-transform duration-300 ${isDesktopMenuOpen ? 'rotate-180' : ''}`} />
                 </span>
-                {(hoveredPath === '/services' || isDesktopMenuOpen) && (
+                {hoveredPath === '/services' && (
                   <motion.div layoutId="nav-pill" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-md" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
               </button>
@@ -188,21 +252,14 @@ export default function Nav() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <div className="absolute top-full left-1/2 -translate-x-1/2 z-50 mt-4 w-64 px-4 sm:px-0">
-                  <div className="overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] bg-white border border-slate-100">
-                    <Link
-                      href="/services"
-                      onClick={() => setIsDesktopMenuOpen(false)}
-                      className="block px-5 py-3 text-sm font-black text-primary bg-primary/5 hover:bg-primary/10 transition-colors border-b border-slate-100"
-                    >
-                      All Services
-                    </Link>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 z-50 pt-2.5 w-64 px-4 sm:px-0">
+                  <div className="overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] bg-white border border-slate-100 divide-y divide-slate-100/70">
                     {services.length > 0 ? (
                       services.map((item) => (
                         <Link
                           key={item.slug}
                           href={`/services/${item.slug}`}
-                          onClick={() => setIsDesktopMenuOpen(false)}
+                          onClick={closeMenu}
                           className="block px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors"
                         >
                           {item.name}
@@ -239,6 +296,20 @@ export default function Nav() {
               >
                 <span className="relative z-10">Gallery</span>
                 {hoveredPath === '/photo-gallery' && (
+                  <motion.div layoutId="nav-pill" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-md" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
+                )}
+              </Link>
+            </li>
+
+            {/* OFFERS */}
+            <li className="relative z-10">
+              <Link 
+                href="/offers" 
+                onMouseEnter={() => setHoveredPath('/offers')}
+                className={`relative block px-6 py-2 rounded-full text-sm font-bold transition-colors duration-300 ${hoveredPath === '/offers' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
+              >
+                <span className="relative z-10">Offers</span>
+                {hoveredPath === '/offers' && (
                   <motion.div layoutId="nav-pill" className="absolute inset-0 bg-primary rounded-full -z-10 shadow-md" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
                 )}
               </Link>
@@ -280,13 +351,6 @@ export default function Nav() {
                             </DisclosureButton>
                             
                             <DisclosurePanel className="mt-4 ml-2 space-y-3 border-l-2 border-white/10 pl-4 py-2">
-                              <Link 
-                                href="/services"
-                                onClick={() => close()}
-                                className="block text-base font-black text-primary hover:text-white"
-                              >
-                                All Services
-                              </Link>
                               {services.length > 0 ? (
                                 services.map(s => (
                                   <Link 
@@ -308,6 +372,7 @@ export default function Nav() {
                       
                       <Link href="/blogs" onClick={() => close()} className="block text-xl font-bold text-white py-4 border-y border-white/10">Blog</Link>
                       <Link href="/photo-gallery" onClick={() => close()} className="block text-xl font-bold text-white pb-4 border-b border-white/10">Gallery</Link>
+                      <Link href="/offers" onClick={() => close()} className="block text-xl font-bold text-white pb-4 border-b border-white/10">Offers &amp; Deals</Link>
                       <Link href="/contact" onClick={() => close()} className="w-full block bg-primary text-white text-center font-bold py-4 rounded-full mt-auto text-lg">Contact</Link>
                     </div>
                   </DisclosurePanel>

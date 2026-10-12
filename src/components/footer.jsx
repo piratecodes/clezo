@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaFacebookSquare, FaInstagram, FaTwitter, FaYoutube, FaLinkedin  } from 'react-icons/fa'
+import { FaFacebookSquare, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { MapPin, Phone, Mail, ArrowRight } from 'lucide-react';
 
 export default function Footer() {
@@ -68,11 +68,22 @@ export default function Footer() {
             <p className="text-sm leading-relaxed text-slate-400 font-medium">
               Join thousands of satisfied clients who trust Clezo for their daily hygiene, product, and management needs.
             </p>
-            <div className="inline-flex items-center gap-2 p-2 bg-white/5 border border-white/10 rounded-lg text-[11px] uppercase tracking-widest font-bold text-slate-300 w-fit shadow-sm">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-              <span>Open 7 Days • 8 AM - 10 PM</span>
+
+            {/* Branch Locations */}
+            <div className="flex flex-col gap-1.5 text-xs text-slate-400 border-l-2 border-primary/40 pl-3 py-1 my-1">
+              <span className="font-bold uppercase tracking-wider text-white text-[11px] flex items-center gap-1.5">
+                <MapPin size={12} className="text-primary shrink-0" />
+                Located @
+              </span>
+              <p className="leading-relaxed">
+                <span className="font-bold text-slate-200">Thane:</span> Hiranandani Estate | Manpada | Pachpakhadi | Teen hath naka.
+              </p>
+              <p className="leading-relaxed">
+                <span className="font-bold text-slate-200">Pune:</span> Bhosle nagar | Near Tribecca High Street mall Undri
+              </p>
             </div>
-            <div className="flex items-center gap-4 mt-2">
+
+            <div className="flex items-center gap-4 mt-1">
               {contactData.facebookUrl && (
                 <a href={contactData.facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-slate-400 hover:text-primary transition-colors hover:scale-110 transform">
                   <FaFacebookSquare size={20} />
@@ -93,9 +104,6 @@ export default function Footer() {
                   <FaTwitter size={20} />
                 </a>
               )}
-              <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-slate-400 hover:text-primary transition-colors hover:scale-110 transform">
-                  <FaYoutube size={20} />
-              </a>
             </div>
           </div>
 
@@ -107,6 +115,8 @@ export default function Footer() {
               <li><Link href="/about" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> About Us</Link></li>
               <li><Link href="/services" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Services</Link></li>
               <li><Link href="/blogs" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Blogs</Link></li>
+              <li><Link href="/photo-gallery" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Gallery</Link></li>
+              <li><Link href="/offers" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Offers &amp; Deals</Link></li>
             </ul>
           </div>
 
@@ -114,6 +124,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <h4 className="text-white font-bold uppercase tracking-widest text-sm">Legal & Support</h4>
             <ul className="flex flex-col gap-3 text-sm font-medium text-slate-400">
+              <li><Link href="/csr" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Corporate Responsibility</Link></li>
               <li><Link href="/contact" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Contact Support</Link></li>
               <li><Link href="/privacy-policy" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Privacy Policy</Link></li>
               <li><Link href="/terms-and-conditions" className="hover:text-primary transition-colors flex items-center gap-2"><ArrowRight size={14} className="text-primary/50" /> Terms & Conditions</Link></li>
@@ -122,9 +133,9 @@ export default function Footer() {
           </div>
 
           {/* Contact Details */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             <h4 className="text-white font-bold uppercase tracking-widest text-sm">Get In Touch</h4>
-            <ul className="flex flex-col gap-4 text-sm font-medium">
+            <ul className="flex flex-col gap-3.5 text-sm font-medium">
               <li className="flex items-start gap-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
                   <MapPin size={14} className="text-primary" />
@@ -148,6 +159,12 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+
+            {/* Operating Hours */}
+            <div className="inline-flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-[11px] uppercase tracking-widest font-bold text-slate-300 w-fit shadow-sm mt-1">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+              <span>Open 7 Days • 8 AM - 10 PM</span>
+            </div>
           </div>
 
         </div>
