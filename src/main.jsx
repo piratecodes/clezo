@@ -19,6 +19,7 @@ import DashboardPage from '@/pages/DashboardPage.jsx'
 import CrmPage from '@/pages/CrmPage.jsx'
 import ServicesPage from '@/pages/ServicesPage.jsx'
 import GalleryPage from '@/pages/GalleryPage.jsx'
+import OffersPage from '@/pages/OffersPage.jsx'
 import SettingsPage from '@/pages/SettingsPage.jsx'
 import TeamPage from '@/pages/TeamPage.jsx'
 import BlogsPage from '@/pages/BlogsPage.jsx'
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
           {
             path: '/gallery',   // <-- ADD THIS ROUTE
             element: <GalleryPage />,
+          },
+          {
+            path: '/offers',
+            element: <OffersPage />,
           },
           {
             path: '/settings',   // <-- ADD THIS ROUTE

@@ -52,7 +52,7 @@ export default function AdminGalleryPage() {
   return (
     <motion.div 
       initial="hidden" animate="visible" variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } }}
-      className="p-8 max-w-7xl mx-auto relative z-10"
+      className="max-w-[1600px] mx-auto relative z-10 space-y-8"
     >
       {/* Header */}
       <motion.div variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -83,7 +83,7 @@ export default function AdminGalleryPage() {
           <button onClick={openCreateDrawer} className="text-primary font-bold hover:underline">Click here to create one</button>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence>
             {albums.map((album, index) => (
               <motion.div 

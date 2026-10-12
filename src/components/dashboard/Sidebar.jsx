@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { fetchClient } from '@/api/fetchClient';
 import { useAuth } from '@/contexts/AuthContext.jsx';
-import { LayoutDashboard, Users, MapPin, FileText, PackageSearch, Image as ImageIcon, Settings, ShieldAlert, Truck, BookOpen, X, Command, MessageSquare, Activity } from 'lucide-react';
+import { LayoutDashboard, Users, MapPin, FileText, PackageSearch, Image as ImageIcon, Settings, ShieldAlert, Truck, BookOpen, X, Command, MessageSquare, Activity, Tag } from 'lucide-react';
 
 export default function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -21,6 +21,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     { name: 'SEO Pages', path: '/seo-pages', icon: FileText, allowed: ['SUPER_ADMIN', 'ADMIN'] }, 
     { name: 'Blogs', path: '/blogs', icon: BookOpen, allowed: ['SUPER_ADMIN', 'ADMIN'] }, 
     { name: 'Media Gallery', path: '/gallery', icon: ImageIcon, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
+    { name: 'Offers & Deals', path: '/offers', icon: Tag, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
     { name: 'Support Center', path: '/support-center', icon: MessageSquare, allowed: ['SUPER_ADMIN', 'ADMIN', 'SALES_AGENT'] },
     { name: 'Company Settings', path: '/settings', icon: Settings, allowed: ['SUPER_ADMIN', 'ADMIN'] },
     { name: 'Staff & Team', path: '/team', icon: ShieldAlert, allowed: ['SUPER_ADMIN', 'ADMIN'] },
