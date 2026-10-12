@@ -359,3 +359,45 @@ model TicketMessage {
   isInternal  Boolean       @default(false)
   createdAt   DateTime      @default(now())
 }
+
+model Offer {
+  id             Int       @id @default(autoincrement())
+  title          String
+  headline       String?
+  slug           String    @unique
+  badge          String?
+  code           String    @unique
+  showCouponCode Boolean   @default(true)
+  discount       String
+  discountType   String    @default("PERCENTAGE") // PERCENTAGE | FIXED
+  description    String?   @db.VarChar(500)
+  bodyText       String?   @db.Text
+  terms          Json?
+  faqs           Json?
+  bannerImage    Json?
+  bannerImageAlt String?
+  appStoreUrl    String?   @default("https://apps.apple.com/in/app/clezo-express-laundry/id6756257943")
+  playStoreUrl   String?   @default("https://play.google.com/store/apps/details?id=com.quickdrycleaning.clezo")
+
+  startDate      DateTime?
+  endDate        DateTime?
+  claimedCount   Int?      @default(84)
+  maxClaims      Int?      @default(100)
+
+  seoMetaTitle       String?
+  seoMetaDescription String?
+  seoMetaKeywords    String?
+  seoCanonicalUrl    String?
+  seoIsNoIndex       Boolean   @default(false)
+  seoJsonLdSchema    String?   @db.Text
+
+  isLimitedTime       Boolean   @default(true)
+  showInUrgencyTicker Boolean   @default(true)
+
+  isActive   Boolean  @default(true)
+  isFeatured Boolean  @default(false)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+

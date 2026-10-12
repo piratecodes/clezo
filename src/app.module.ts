@@ -18,6 +18,7 @@ import { ServiceCategoryModule } from './service-category/service-category.modul
 import { SupportTicketModule } from './support-ticket/support-ticket.module';
 import { ServiceAreaModule } from './service-area/service-area.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { OfferModule } from './offer/offer.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     SupportTicketModule,
     ServiceAreaModule,
     DashboardModule,
+    OfferModule,
   ],
   controllers: [AppController],
   providers: [AppService],
