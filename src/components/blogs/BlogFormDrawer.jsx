@@ -326,7 +326,7 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
   return (
     <>
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-50" onClose={() => { /* Prevent outside click from closing to protect dropdowns and data */ }}>
         <TransitionChild as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
         </TransitionChild>

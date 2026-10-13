@@ -293,7 +293,7 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
 
   return (
     <Transition show={isOpen === true ? true : false} as={Fragment}>
-      <Dialog as="div" className="relative z-[60]" onClose={handleClose}>
+      <Dialog as="div" className="relative z-[60]" onClose={() => { /* Prevent outside click from closing to protect dropdowns and data */ }}>
         <TransitionChild as={Fragment} enter="ease-in-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in-out duration-300" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
         </TransitionChild>

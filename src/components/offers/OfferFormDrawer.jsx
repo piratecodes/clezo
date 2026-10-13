@@ -49,6 +49,8 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAutoSync, setIsAutoSync] = useState(true);
   const [termInput, setTermInput] = useState('');
+  const [editorContent, setEditorContent] = useState('');
+  const editorRef = useRef(null);
 
   const [touchedFields, setTouchedFields] = useState({
     seoMetaTitle: false,
@@ -98,32 +100,38 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
   const joditConfig = useMemo(() => ({
     readonly: false,
     placeholder: 'Write in-depth landing page editorial, live hygiene guarantee, pickup schedule...',
-    height: 380,
+    height: 420,
     enableDragAndDropFileToEditor: true,
-    uploader: { insertImageAsBase64URI: true },
-    toolbarAdaptive: false,
+    uploader: { insertImageAsBase64URI: true }, // Simple base64 for inline images
+    toolbarAdaptive: false, // Prevents toolbar buttons from vanishing when resizing/toggling code view!
     showTooltip: true,
-    useNativeTooltip: true,
+    useNativeTooltip: true, // Native browser tooltips are fully reliable for hover
     buttons: [
       'bold', 'italic', 'underline', 'strikethrough', 'eraser', '|',
       'ul', 'ol', '|',
-      'font', 'fontsize', 'paragraph', '|',
-      'brush', 'hr', 'table', 'link', '|',
+      'font', 'fontsize', 'paragraph', 'classSpan', '|',
+      'superscript', 'subscript', 'brush', '|',
+      'file', 'image', 'video', '\n',
+      'spellcheck', 'speechRecognize', '|',
+      'cut', 'copy', 'paste', 'selectall', 'copyformat', '|',
+      'hr', 'table', 'link', 'symbol', '|',
       'align', 'undo', 'redo', '|',
-      'source', 'fullsize', 'preview'
+      'find', 'source', 'fullsize', 'preview', 'print'
     ]
   }), []);
 
   const minimalJoditConfig = useMemo(() => ({
     readonly: false,
-    placeholder: 'Answer with details, app instructions, or exceptions...',
+    placeholder: 'Answer (supports formatting & links)...',
     height: 90,
     toolbarAdaptive: false,
     useNativeTooltip: true,
     buttons: [
-      'bold', 'italic', 'underline', '|',
+      'bold', 'italic', 'underline', 'strikethrough', 'eraser', '|',
       'ul', 'ol', '|',
-      'link', 'undo', 'redo'
+      'superscript', 'subscript', 'brush', '|',
+      'align', 'undo', 'redo', '|',
+      'link', 'source', 'fullsize'
     ]
   }), []);
 
@@ -174,6 +182,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
         seoMetaDescription: !!offerData.seoMetaDescription,
         seoJsonLdSchema: !!offerData.seoJsonLdSchema
       });
+      setEditorContent(offerData.bodyText || '');
       setActiveTab('basic');
     } else if (isOpen) {
       // Create New Offer Defaults
@@ -222,6 +231,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
       });
       setIsAutoSync(true);
       setTouchedFields({ seoMetaTitle: false, seoMetaDescription: false, seoJsonLdSchema: false });
+      setEditorContent('');
       setActiveTab('basic');
     }
   }, [offerData, isOpen]);
@@ -401,8 +411,10 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
 
     setIsSubmitting(true);
     try {
+      const editorialContent = editorRef.current?.value !== undefined ? editorRef.current.value : formData.bodyText;
       const payload = {
         ...formData,
+        bodyText: editorialContent,
         code: formData.code.toUpperCase().trim(),
         claimedCount: Number(formData.claimedCount) || 0,
         maxClaims: Number(formData.maxClaims) || 100,
@@ -438,7 +450,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-50" onClose={() => { /* Prevent outside click from closing to protect dropdowns and data */ }}>
         {/* Backdrop */}
         <TransitionChild
           as={Fragment}
@@ -1003,7 +1015,8 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                         </label>
                         <div className="bg-white rounded-xl overflow-hidden text-slate-900 border border-white/20">
                           <JoditEditor
-                            value={formData.bodyText}
+                            ref={editorRef}
+                            value={editorContent}
                             config={joditConfig}
                             onBlur={(newContent) => setFormData(p => ({ ...p, bodyText: newContent }))}
                             onChange={() => {}}
