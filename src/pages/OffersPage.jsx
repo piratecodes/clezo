@@ -7,9 +7,12 @@ import { Popover, PopoverButton, PopoverPanel, Switch } from '@headlessui/react'
 import { fetchClient } from '@/api/fetchClient';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import useDocumentMeta from '@/hooks/useDocumentMeta';
 import OfferFormDrawer from '@/components/offers/OfferFormDrawer';
 
 export default function AdminOffersPage() {
+  useDocumentMeta("Promotions | Clezo", "Manage offers and coupon codes for Clezo.");
+
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

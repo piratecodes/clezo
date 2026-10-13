@@ -3,9 +3,13 @@ import { Plus, Image as ImageIcon, MoreVertical, Edit2, Trash2, Loader2, EyeOff 
 import { fetchClient } from '@/api/fetchClient';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import useDocumentMeta from '@/hooks/useDocumentMeta';
 import GalleryAlbumFormDrawer from '@/components/gallery/GalleryUploader'; // Adjust import path if needed
 
 export default function AdminGalleryPage() {
+  useDocumentMeta("Media Gallery | Clezo Express Laundry", "Manage your service albums and event photos.");
+
+
   const [albums, setAlbums] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
