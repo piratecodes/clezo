@@ -10,12 +10,15 @@ export default async function sitemap() {
     '/privacy-policy',
     '/terms-and-conditions',
     '/blogs',
+    '/services',
+    '/offers',
+    '/photo-gallery',
     '/refer-and-earn'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
-    changeFrequency: 'monthly',
-    priority: route === '' ? 1.0 : 0.8, // Homepage gets highest priority
+    changeFrequency: route === '' || route === '/offers' ? 'daily' : 'monthly',
+    priority: route === '' ? 1.0 : (route === '/offers' || route === '/services' ? 0.9 : 0.8), // Homepage and key commercial hubs get high priority
   }));
 
   const dynamicRoutes = [];
@@ -41,12 +44,14 @@ export default async function sitemap() {
   }
 
   services.forEach((service) => {
-    dynamicRoutes.push({
-      url: `${baseUrl}/${service.slug}`,
-      lastModified: new Date(service.updatedAt || service.createdAt || new Date()).toISOString(),
-      changeFrequency: 'weekly',
-      priority: 0.9, // High priority for service pages
-    });
+    if (service.slug) {
+      dynamicRoutes.push({
+        url: `${baseUrl}/${service.slug}`,
+        lastModified: new Date(service.updatedAt || service.createdAt || new Date()).toISOString(),
+        changeFrequency: 'weekly',
+        priority: 0.9, // High priority for service pages
+      });
+    }
   });
 
   // 3. Fetch all Blogs dynamically
@@ -58,9 +63,9 @@ export default async function sitemap() {
     
     if (res.ok) {
       const data = await res.json();
-      if (data.success && data.data.blogs) {
-        // Only get published blogs
-        blogs = data.data.blogs.filter(b => b.isPublished);
+      if (data.success && data.data?.blogs) {
+        // Only get published, indexable blogs
+        blogs = data.data.blogs.filter(b => b.isPublished && !b.seoIsNoIndex && b.slug);
       }
     }
   } catch (error) {
@@ -76,6 +81,32 @@ export default async function sitemap() {
     });
   });
 
-  // 4. Combine Static and Dynamic links and feed them to Google
+  // 4. Fetch all Offers dynamically
+  let offers = [];
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1'}/offers`, { 
+      next: { revalidate: 3600 } 
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      const rawOffers = data.data?.offers || (Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : []));
+      // Only include active and indexable offers with a valid slug
+      offers = rawOffers.filter(o => o.isActive !== false && !o.seoIsNoIndex && o.slug);
+    }
+  } catch (error) {
+    console.error("Sitemap Offer Fetch Error:", error);
+  }
+
+  offers.forEach((offer) => {
+    dynamicRoutes.push({
+      url: `${baseUrl}/offers/${offer.slug}`,
+      lastModified: new Date(offer.updatedAt || offer.createdAt || new Date()).toISOString(),
+      changeFrequency: 'weekly',
+      priority: 0.85, 
+    });
+  });
+
+  // 5. Combine Static and Dynamic links and feed them to Google
   return [...staticRoutes, ...dynamicRoutes];
 }
