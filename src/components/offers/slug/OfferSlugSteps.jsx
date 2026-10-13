@@ -32,7 +32,7 @@ export default function OfferSlugSteps() {
   return (
     <section className="py-16 md:py-20 relative overflow-hidden">
       {/* Light Ambient Glare */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-75 bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -72,7 +72,7 @@ export default function OfferSlugSteps() {
                   {item.step}
                 </div>
 
-                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.color} text-white flex items-center justify-center mb-6 shadow-md group-hover:scale-105 transition-transform`}>
+                <div className={`w-12 h-12 rounded-2xl bg-linear-to-br ${item.color} text-white flex items-center justify-center mb-6 shadow-md group-hover:scale-105 transition-transform`}>
                   <Icon size={24} />
                 </div>
 
