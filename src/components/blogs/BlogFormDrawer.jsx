@@ -247,14 +247,13 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
     window.cloudinary.openUploadWidget({
       cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
       apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
-      uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
       folder: import.meta.env.MODE === 'development' ? 'dev/blogs' : 'blogs',
       cropping: true,
       multiple: false,
       uploadSignature: async (callback, params_to_sign) => {
         try {
           const res = await fetchClient('/cloudinary-signature', { method: 'POST', body: JSON.stringify(params_to_sign) });
-          callback(res.data.signature || res.signature);
+          callback(res.data?.signature || res.signature);
         } catch (err) { toast.error("Signature failed. Check backend."); }
       }
     }, async (error, result) => {
@@ -268,6 +267,31 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
         setFormData(prev => ({ ...prev, coverImage: result.info.secure_url }));
       }
     });
+  };
+
+  const handleTabChange = (newTab) => {
+    if (activeTab === 'content' && editorRef.current) {
+      try {
+        const liveVal = typeof editorRef.current.getEditorValue === 'function'
+          ? editorRef.current.getEditorValue()
+          : editorRef.current.value;
+        if (liveVal !== undefined && liveVal !== null) {
+          setFormData(p => ({ ...p, content: liveVal }));
+          setEditorContent(liveVal);
+        }
+      } catch (e) {}
+    }
+    setActiveTab(newTab);
+    if (newTab === 'content') {
+      setTimeout(() => {
+        try {
+          if (editorRef.current?.events) {
+            editorRef.current.events.fire('resize');
+          }
+          window.dispatchEvent(new Event('resize'));
+        } catch (e) {}
+      }, 50);
+    }
   };
 
   const handleDeleteImage = async () => {
@@ -284,7 +308,21 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
   const handleSave = async () => {
     if (!formData.title || !formData.slug) return toast.error("Title and Slug are required");
     
-    const payload = { ...formData };
+    let currentContent = formData.content;
+    try {
+      if (editorRef.current && typeof editorRef.current.getEditorValue === 'function') {
+        const liveVal = editorRef.current.getEditorValue();
+        if (liveVal !== undefined && liveVal !== null) {
+          currentContent = liveVal;
+        }
+      } else if (editorRef.current && editorRef.current.value !== undefined) {
+        currentContent = editorRef.current.value;
+      }
+    } catch (e) {
+      currentContent = formData.content;
+    }
+
+    const payload = { ...formData, content: currentContent };
     
     // Strip frontend-only _id from faqs before sending to strict backend validator
     if (payload.faqs && payload.faqs.length > 0) {
@@ -351,13 +389,13 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
 
                 {/* Tabs */}
                 <div className="flex border-b border-white/10 px-6 bg-black/20 relative z-10">
-                  <button onClick={() => setActiveTab('basic')} className={`px-4 py-3 font-bold text-sm border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'basic' ? 'border-primary text-primary drop-shadow-[0_0_10px_rgba(0,174,230,0.5)]' : 'border-transparent text-slate-400 hover:text-white'}`}>
+                  <button onClick={() => handleTabChange('basic')} className={`px-4 py-3 font-bold text-sm border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'basic' ? 'border-primary text-primary drop-shadow-[0_0_10px_rgba(0,174,230,0.5)]' : 'border-transparent text-slate-400 hover:text-white'}`}>
                     <FileText className="w-4 h-4" /> Basics
                   </button>
-                  <button onClick={() => setActiveTab('content')} className={`px-4 py-3 font-bold text-sm border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'content' ? 'border-primary text-primary drop-shadow-[0_0_10px_rgba(0,174,230,0.5)]' : 'border-transparent text-slate-400 hover:text-white'}`}>
+                  <button onClick={() => handleTabChange('content')} className={`px-4 py-3 font-bold text-sm border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'content' ? 'border-primary text-primary drop-shadow-[0_0_10px_rgba(0,174,230,0.5)]' : 'border-transparent text-slate-400 hover:text-white'}`}>
                     <Code className="w-4 h-4" /> Content Editor
                   </button>
-                  <button onClick={() => setActiveTab('seo')} className={`px-4 py-3 font-bold text-sm border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'seo' ? 'border-primary text-primary drop-shadow-[0_0_10px_rgba(0,174,230,0.5)]' : 'border-transparent text-slate-400 hover:text-white'}`}>
+                  <button onClick={() => handleTabChange('seo')} className={`px-4 py-3 font-bold text-sm border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'seo' ? 'border-primary text-primary drop-shadow-[0_0_10px_rgba(0,174,230,0.5)]' : 'border-transparent text-slate-400 hover:text-white'}`}>
                     <Settings className="w-4 h-4" /> SEO Data
                   </button>
                 </div>
@@ -365,8 +403,7 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto p-6 bg-transparent custom-scrollbar relative z-10">
                   
-                  {activeTab === 'basic' && (
-                    <div className="space-y-6 max-w-6xl">
+                  <div className={activeTab === 'basic' ? 'space-y-6 max-w-6xl' : 'hidden'}>
                       <div>
                         <label className="block text-sm font-bold text-slate-300 mb-1">Title <span className="text-primary">*</span></label>
                         <input type="text" value={formData.title} onChange={e => { setFormData({...formData, title: e.target.value}); autoGenerateSlug(e.target.value); }} className="w-full p-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="10 Tips for Moving..." />
@@ -482,10 +519,9 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
                         <p className="text-xs text-slate-400 ml-auto font-medium">If unchecked, it saves as a Draft.</p>
                       </div>
                     </div>
-                  )}
 
-                  {activeTab === 'content' && (
-                    <div className="space-y-8 max-w-6xl mx-auto">
+                    {/* Tab 2: Content */}
+                    <div className={activeTab === 'content' ? 'space-y-8 max-w-6xl mx-auto' : 'hidden'}>
                       <div className="bg-white rounded-xl overflow-hidden shadow-sm">
                         <div className="bg-slate-900 px-4 py-2 flex items-center justify-between border-b border-white/10">
                           <span className="text-xs font-bold text-white uppercase tracking-wider">Rich Text Editor</span>
@@ -495,8 +531,13 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
                           ref={editorRef}
                           value={editorContent}
                           config={joditConfig}
-                          onBlur={newContent => setFormData({...formData, content: newContent})}
-                          onChange={() => {}} // Empty onChange to satisfy prop requirements without triggering cursor jump
+                          onBlur={(newContent) => {
+                            setFormData(prev => ({ ...prev, content: newContent }));
+                            setEditorContent(newContent);
+                          }}
+                          onChange={(newContent) => {
+                            setFormData(prev => ({ ...prev, content: newContent }));
+                          }}
                         />
                       </div>
 
@@ -526,10 +567,9 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
                         )}
                       </div>
                     </div>
-                  )}
 
-                  {activeTab === 'seo' && (
-                    <div className="space-y-6 max-w-6xl">
+                    {/* Tab 3: SEO */}
+                    <div className={activeTab === 'seo' ? 'space-y-6 max-w-6xl' : 'hidden'}>
                       <div className="bg-primary/10 border border-primary/20 p-4 rounded-xl shadow-inner">
                         <h4 className="text-sm font-bold text-white mb-1 flex items-center gap-2 drop-shadow-md">
                           <Settings className="w-4 h-4 text-primary" /> Automated SEO Engine
@@ -625,7 +665,6 @@ export default function BlogFormDrawer({ isOpen, onClose, blog, onSuccess }) {
                         </label>
                       </div>
                     </div>
-                  )}
 
                 </div>
 

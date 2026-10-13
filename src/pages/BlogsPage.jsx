@@ -306,7 +306,17 @@ export default function BlogsPage() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <img src={blog.author?.profilePic && blog.author.profilePic !== 'default-avatar.png' ? `${(import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1').replace('/api/v1', '')}/uploads/${blog.author.profilePic}` : '/default-avatar.png'} alt="Author" className="h-6 w-6 rounded-full object-cover border border-white/10" />
+                          <img 
+                            src={
+                              blog.author?.profilePic && blog.author.profilePic !== 'default-avatar.png'
+                                ? blog.author.profilePic.startsWith('http')
+                                  ? blog.author.profilePic
+                                  : `${(import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1').replace('/api/v1', '')}/uploads/${blog.author.profilePic}`
+                                : '/default-avatar.png'
+                            } 
+                            alt="Author" 
+                            className="h-6 w-6 rounded-full object-cover border border-white/10" 
+                          />
                           <span className="text-slate-300 truncate max-w-25 font-bold">{blog.author?.name || 'Unknown'}</span>
                         </div>
                       </td>

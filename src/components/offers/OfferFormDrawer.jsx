@@ -367,7 +367,6 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
     window.cloudinary.openUploadWidget({
       cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
       apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
-      uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
       folder: import.meta.env.MODE === 'development' ? 'dev/offers' : 'offers',
       cropping: false,
       multiple: false,
@@ -403,6 +402,33 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
     });
   };
 
+  const handleTabChange = (newTab) => {
+    if (activeTab === 'content' && editorRef.current) {
+      try {
+        const liveVal = typeof editorRef.current.getEditorValue === 'function'
+          ? editorRef.current.getEditorValue()
+          : editorRef.current.value;
+        if (liveVal !== undefined && liveVal !== null) {
+          setFormData(p => ({ ...p, bodyText: liveVal }));
+          setEditorContent(liveVal);
+        }
+      } catch (e) {
+        // Safe fallback
+      }
+    }
+    setActiveTab(newTab);
+    if (newTab === 'content') {
+      setTimeout(() => {
+        try {
+          if (editorRef.current?.events) {
+            editorRef.current.events.fire('resize');
+          }
+          window.dispatchEvent(new Event('resize'));
+        } catch (e) {}
+      }, 50);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.title || !formData.code || !formData.discount) {
@@ -411,7 +437,20 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
 
     setIsSubmitting(true);
     try {
-      const editorialContent = editorRef.current?.value !== undefined ? editorRef.current.value : formData.bodyText;
+      let editorialContent = formData.bodyText;
+      try {
+        if (editorRef.current && typeof editorRef.current.getEditorValue === 'function') {
+          const liveVal = editorRef.current.getEditorValue();
+          if (liveVal !== undefined && liveVal !== null) {
+            editorialContent = liveVal;
+          }
+        } else if (editorRef.current && editorRef.current.value !== undefined) {
+          editorialContent = editorRef.current.value;
+        }
+      } catch (e) {
+        editorialContent = formData.bodyText;
+      }
+
       const payload = {
         ...formData,
         bodyText: editorialContent,
@@ -505,7 +544,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                 <div className="flex border-b border-white/10 px-6 bg-black/25 shrink-0">
                   <button
                     type="button"
-                    onClick={() => setActiveTab('basic')}
+                    onClick={() => handleTabChange('basic')}
                     className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
                       activeTab === 'basic'
                         ? 'border-primary text-primary drop-shadow-[0_0_8px_rgba(0,174,230,0.5)]'
@@ -516,7 +555,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('content')}
+                    onClick={() => handleTabChange('content')}
                     className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
                       activeTab === 'content'
                         ? 'border-primary text-primary drop-shadow-[0_0_8px_rgba(0,174,230,0.5)]'
@@ -527,7 +566,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveTab('seo')}
+                    onClick={() => handleTabChange('seo')}
                     className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
                       activeTab === 'seo'
                         ? 'border-primary text-primary drop-shadow-[0_0_8px_rgba(0,174,230,0.5)]'
@@ -542,8 +581,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                 <form id="offer-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-6">
                   
                   {/* TAB 1: BASICS */}
-                  {activeTab === 'basic' && (
-                    <div className="space-y-6">
+                  <div className={activeTab === 'basic' ? 'space-y-6' : 'hidden'}>
                       
                       {/* Offer Title */}
                       <div>
@@ -984,45 +1022,48 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                         </div>
                       </div>
 
-                    </div>
-                  )}
+                  </div>
 
                   {/* TAB 2: PAGE CONTENT (Landing Page Editorial, Terms & Dynamic FAQs) */}
-                  {activeTab === 'content' && (
-                    <div className="space-y-6">
-                      
-                      {/* Landing Page Headline H1 */}
-                      <div>
-                        <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                          Ad Landing Page Headline (H1)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.headline}
-                          onChange={(e) => setFormData(p => ({ ...p, headline: e.target.value }))}
-                          placeholder="e.g. Get Flat 30% Off On Your First Live Laundry Order in Thane & Pune"
-                          className="w-full px-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-white text-sm focus:border-primary outline-none"
-                        />
-                        <p className="text-[11px] text-slate-500 mt-1">
-                          Displayed as the primary H1 title on the individual landing page (/offers/[slug]) for Google Ads.
-                        </p>
-                      </div>
+                  <div className={activeTab === 'content' ? 'space-y-6' : 'hidden'}>
+                    
+                    {/* Landing Page Headline H1 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                        Ad Landing Page Headline (H1)
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.headline}
+                        onChange={(e) => setFormData(p => ({ ...p, headline: e.target.value }))}
+                        placeholder="e.g. Get Flat 30% Off On Your First Live Laundry Order in Thane & Pune"
+                        className="w-full px-4 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-white text-sm focus:border-primary outline-none"
+                      />
+                      <p className="text-[11px] text-slate-500 mt-1">
+                        Displayed as the primary H1 title on the individual landing page (/offers/[slug]) for Google Ads.
+                      </p>
+                    </div>
 
-                      {/* Editorial Body Text */}
-                      <div>
-                        <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                          Offer Story & Hygiene Breakdown (Rich Text)
-                        </label>
-                        <div className="bg-white rounded-xl overflow-hidden text-slate-900 border border-white/20">
-                          <JoditEditor
-                            ref={editorRef}
-                            value={editorContent}
-                            config={joditConfig}
-                            onBlur={(newContent) => setFormData(p => ({ ...p, bodyText: newContent }))}
-                            onChange={() => {}}
-                          />
-                        </div>
+                    {/* Editorial Body Text */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                        Offer Story & Hygiene Breakdown (Rich Text)
+                      </label>
+                      <div className="bg-white rounded-xl overflow-hidden text-slate-900 border border-white/20">
+                        <JoditEditor
+                          ref={editorRef}
+                          value={editorContent}
+                          config={joditConfig}
+                          onBlur={(newContent) => {
+                            setFormData(p => ({ ...p, bodyText: newContent }));
+                            setEditorContent(newContent);
+                          }}
+                          onChange={(newContent) => {
+                            setFormData(p => ({ ...p, bodyText: newContent }));
+                          }}
+                        />
                       </div>
+                    </div>
 
                       {/* Terms & Conditions Manager */}
                       <div className="space-y-3 bg-slate-900/60 p-4 rounded-2xl border border-white/10">
@@ -1104,12 +1145,10 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                         )}
                       </div>
 
-                    </div>
-                  )}
+                  </div>
 
                   {/* TAB 3: AUTOMATED SEO ENGINE */}
-                  {activeTab === 'seo' && (
-                    <div className="space-y-6">
+                  <div className={activeTab === 'seo' ? 'space-y-6' : 'hidden'}>
                       
                       {/* Automated Engine Info Card */}
                       <div className="bg-primary/10 border border-primary/20 p-4 rounded-xl shadow-inner">
@@ -1290,8 +1329,7 @@ export default function OfferFormDrawer({ isOpen, onClose, offerData, onSave }) 
                         </Switch>
                       </div>
 
-                    </div>
-                  )}
+                  </div>
 
                 </form>
 

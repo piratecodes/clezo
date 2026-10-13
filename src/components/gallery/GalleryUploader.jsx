@@ -49,7 +49,6 @@ export default function GalleryAlbumFormDrawer({ isOpen, setIsOpen, albumData, o
     window.cloudinary.openUploadWidget({
         cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
         apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
-        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
         folder: import.meta.env.MODE === 'development' ? 'dev/gallery' : 'gallery',
         cropping: !isBulk, 
         multiple: isBulk,

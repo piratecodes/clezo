@@ -200,7 +200,6 @@ export default function SeoPageFormDrawer({ isOpen, setIsOpen, pageData, onSucce
       {
         cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
         apiKey: import.meta.env.VITE_CLOUDINARY_API_KEY,
-        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'piratecodes',
         folder: import.meta.env.MODE === 'development' ? 'clezo/dev/service pages' : 'clezo/service page',
         cropping: true,
         multiple: false,
