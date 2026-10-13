@@ -186,7 +186,7 @@ export default function Nav() {
         {/* --- DESKTOP ISLAND NAVIGATION --- */}
         <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
           <ul 
-            className={`flex items-center p-1.5 border border-gray-100/50 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.08)] ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white' : 'bg-white/30'}`}
+            className={`flex items-center p-1.5 border border-gray-100/50 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.08)] ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white' : 'bg-white/60 text-white'}`}
             onMouseLeave={() => {
               if (!isDesktopMenuOpen) {
                 setHoveredPath(getActivePath(pathname));
