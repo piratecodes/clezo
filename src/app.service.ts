@@ -88,7 +88,7 @@ export class AppService {
   generateCloudinarySignature(paramsToSign: any) {
     const apiSecret = cloudinary.config().api_secret;
     const signature = cloudinary.utils.api_sign_request(paramsToSign, apiSecret || '');
-    return { signature };
+    return { success: true, signature, data: { signature } };
   }
 
   async deleteCloudinaryImage(imageUrl: string) {
