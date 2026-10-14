@@ -114,7 +114,7 @@ export default function LoginPage() {
              </form>
 
              <div className="mt-12 text-center text-xs font-medium text-slate-600 flex flex-col items-center justify-center gap-1">
-               <p>Developed by <a href="https://subham.digital" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors font-bold">Subham.digital</a></p>
+               <p>Developed by <a href="https://subhamsarkar.dev" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-primary transition-colors font-bold">Subham Sarkar</a></p>
                <a href="https://straxcel.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-slate-500 hover:text-primary transition-colors font-bold">Straxcel Business Solutions</a>
              </div>
           </div>

@@ -106,12 +106,12 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             Developed By
           </p>
           <a 
-            href="https://subham.digital" 
+            href="https://subhamsarkar.dev" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-[11px] font-bold text-slate-400 hover:text-primary transition-colors"
           >
-            Subham.digital
+            Subham Sarkar
           </a>
           <a 
             href="https://straxcel.com" 
