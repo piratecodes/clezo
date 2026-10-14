@@ -17,10 +17,10 @@ export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredPath, setHoveredPath] = useState('');
   const [isLogoHovered, setIsLogoHovered] = useState(false);
-  
+
   const pathname = usePathname();
   const isTransparentNavbarPage = pathname === '/' || pathname === '/offers';
-  
+
   const servicesMenuRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
 
@@ -132,23 +132,23 @@ export default function Nav() {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white/30 backdrop-blur-xl py-3 border-b border-white/40 shadow-sm' : 'bg-transparent py-4'}`} role="navigation" aria-label="Primary Navigation">
       <div className="container flex items-center justify-between px-4 sm:px-6 lg:px-8">
-        
+
         {/* LOGO */}
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="flex items-center space-x-2 shrink-0 group"
           onMouseEnter={() => setIsLogoHovered(true)}
           onMouseLeave={() => setIsLogoHovered(false)}
         >
           <motion.div
-             animate={isLogoHovered ? { rotate: [0, -15, 15, -15, 0], scale: 1.1 } : { rotate: 0, scale: 1 }}
-             transition={{ duration: 0.5, ease: "easeInOut" }}
+            animate={isLogoHovered ? { rotate: [0, -15, 15, -15, 0], scale: 1.1 } : { rotate: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <Image 
-              src={icon} 
-              alt="Clezo Logo" 
-              className="h-8 w-auto object-contain filter brightness-200" 
-              draggable={false} 
+            <Image
+              src={icon}
+              alt="Clezo Logo"
+              className="h-8 w-auto object-contain filter brightness-200"
+              draggable={false}
               priority
             />
           </motion.div>
@@ -157,7 +157,7 @@ export default function Nav() {
             <span className={`relative z-10 self-center text-xl font-black whitespace-nowrap tracking-widest uppercase transition-colors duration-500 ${isLogoHovered ? 'text-primary/10' : 'text-on-surface'}`}>
               Clezo
             </span>
-            
+
             {/* Magical Liquid Wave Fill */}
             <motion.span
               className="absolute inset-0 z-20 self-center text-xl font-black whitespace-nowrap tracking-widest uppercase bg-clip-text text-transparent pointer-events-none px-1 py-0.5 drop-shadow-sm"
@@ -167,12 +167,12 @@ export default function Nav() {
                 backgroundRepeat: 'repeat-x',
               }}
               initial={false}
-              animate={{ 
+              animate={{
                 backgroundPositionX: ['0px', '-60px'],
                 backgroundPositionY: isLogoHovered ? '-5px' : '20px',
                 opacity: isLogoHovered ? 1 : 0
               }}
-              transition={{ 
+              transition={{
                 backgroundPositionX: { ease: "linear", duration: 1, repeat: Infinity },
                 backgroundPositionY: { duration: 0.6, type: "spring", bounce: 0.4 },
                 opacity: { duration: 0.3 }
@@ -185,7 +185,7 @@ export default function Nav() {
 
         {/* --- DESKTOP ISLAND NAVIGATION --- */}
         <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <ul 
+          <ul
             className={`flex items-center p-1.5 border border-gray-100/50 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.08)] ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white' : 'bg-white/60 text-white'}`}
             onMouseLeave={() => {
               if (!isDesktopMenuOpen) {
@@ -195,8 +195,8 @@ export default function Nav() {
           >
             {/* HOME */}
             <li className="relative z-10">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 onMouseEnter={() => setHoveredPath('/')}
                 className={`relative block px-6 py-2 rounded-full text-sm font-bold transition-colors duration-300 ${hoveredPath === '/' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
@@ -209,8 +209,8 @@ export default function Nav() {
 
             {/* ABOUT */}
             <li className="relative z-10">
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 onMouseEnter={() => setHoveredPath('/about')}
                 className={`relative block px-6 py-2 rounded-full text-sm font-bold transition-colors duration-300 ${hoveredPath === '/about' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
@@ -222,13 +222,13 @@ export default function Nav() {
             </li>
 
             {/* SERVICES MEGA MENU (DESKTOP) */}
-            <li 
-              className="relative z-10" 
+            <li
+              className="relative z-10"
               ref={servicesMenuRef}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <button 
+              <button
                 type="button"
                 onClick={handleButtonClick}
                 className={`relative flex items-center gap-1.5 px-6 py-2 rounded-full text-sm font-bold outline-none transition-colors duration-300 ${hoveredPath === '/services' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
@@ -275,8 +275,8 @@ export default function Nav() {
 
             {/* BLOGS */}
             <li className="relative z-10">
-              <Link 
-                href="/blogs" 
+              <Link
+                href="/blogs"
                 onMouseEnter={() => setHoveredPath('/blogs')}
                 className={`relative block px-6 py-2 rounded-full text-sm font-bold transition-colors duration-300 ${hoveredPath === '/blogs' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
@@ -289,8 +289,8 @@ export default function Nav() {
 
             {/* GALLERY */}
             <li className="relative z-10">
-              <Link 
-                href="/photo-gallery" 
+              <Link
+                href="/photo-gallery"
                 onMouseEnter={() => setHoveredPath('/photo-gallery')}
                 className={`relative block px-6 py-2 rounded-full text-sm font-bold transition-colors duration-300 ${hoveredPath === '/photo-gallery' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
@@ -303,8 +303,8 @@ export default function Nav() {
 
             {/* OFFERS */}
             <li className="relative z-10">
-              <Link 
-                href="/offers" 
+              <Link
+                href="/offers"
                 onMouseEnter={() => setHoveredPath('/offers')}
                 className={`relative block px-6 py-2 rounded-full text-sm font-bold transition-colors duration-300 ${hoveredPath === '/offers' ? 'text-white' : 'text-on-surface-variant hover:text-on-surface'}`}
               >
@@ -319,8 +319,8 @@ export default function Nav() {
 
         {/* --- ACTIONS & MOBILE --- */}
         <div className="flex items-center space-x-3">
-          <Link href="/contact" className="hidden sm:block text-on-surface bg-white hover:bg-primary hover:text-white border border-outline-variant rounded-full font-bold text-sm px-6 py-2 transition-all shadow-sm">Contact Us</Link>
-          
+          <Link href="/contact" className={`hidden sm:block text-on-surface ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white' : 'bg-white/60'} hover:bg-primary hover:text-white border border-outline-variant rounded-full font-bold text-sm px-6 py-2 transition-all shadow-sm`}>Contact Us</Link>
+
           <Disclosure as="div" className="md:hidden">
             {({ open, close }) => (
               <>
@@ -339,9 +339,9 @@ export default function Nav() {
                 >
                   <DisclosurePanel className="absolute top-full left-0 w-full bg-on-primary-fixed/95 backdrop-blur-xl border-b border-white/10 shadow-2xl z-110 h-[calc(100vh-72px)] overflow-y-auto pb-20">
                     <div className="p-6 space-y-2">
-                      
+
                       <Link href="/about" onClick={() => close()} className="block text-xl font-bold text-white border-b border-white/10 pb-3">About</Link>
-                      
+
                       <Disclosure as="div" className="py-4 border-b border-white/10">
                         {({ open: serviceOpen }) => (
                           <>
@@ -349,12 +349,12 @@ export default function Nav() {
                               <span>Services</span>
                               <ChevronDown size={16} className={`transition-transform ${serviceOpen ? 'rotate-180' : ''}`} />
                             </DisclosureButton>
-                            
+
                             <DisclosurePanel className="mt-4 ml-2 space-y-3 border-l-2 border-white/10 pl-4 py-2">
                               {services.length > 0 ? (
                                 services.map(s => (
-                                  <Link 
-                                    key={s.slug} 
+                                  <Link
+                                    key={s.slug}
                                     href={`/services/${s.slug}`}
                                     onClick={() => close()}
                                     className="block text-base font-semibold text-gray-400 hover:text-white"
@@ -369,7 +369,7 @@ export default function Nav() {
                           </>
                         )}
                       </Disclosure>
-                      
+
                       <Link href="/blogs" onClick={() => close()} className="block text-xl font-bold text-white py-4 border-y border-white/10">Blog</Link>
                       <Link href="/photo-gallery" onClick={() => close()} className="block text-xl font-bold text-white pb-4 border-b border-white/10">Gallery</Link>
                       <Link href="/offers" onClick={() => close()} className="block text-xl font-bold text-white pb-4 border-b border-white/10">Offers &amp; Deals</Link>
