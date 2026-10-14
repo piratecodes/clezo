@@ -176,7 +176,7 @@ export default function Footer() {
           </p>
           
           <p className="text-center uppercase tracking-widest text-[10px]">
-            Developed by <a href="https://subham.digital" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white font-bold transition-colors">Subham.digital</a> | <a href="https://subham.digital" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary font-bold transition-colors">Straxcel Business Solutions</a>
+            Developed by: <a href="https://subhamsarkar.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white font-bold transition-colors sr-only">Subham Sarkar |</a> <a href="https://subham.digital" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary font-bold transition-colors">Straxcel Business Solutions</a>
           </p>
         </div>
 

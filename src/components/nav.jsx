@@ -319,7 +319,7 @@ export default function Nav() {
 
         {/* --- ACTIONS & MOBILE --- */}
         <div className="flex items-center space-x-3">
-          <Link href="/contact" className={`hidden sm:block ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white text-on-surface' : 'bg-white/60 text-on-surface-variant'} hover:bg-primary hover:text-white border border-outline-variant rounded-full font-bold text-sm px-6 py-2 transition-all shadow-sm`}>Contact Us</Link>
+          <Link href="/contact" className={`hidden sm:block ${(!isTransparentNavbarPage || isScrolled) ? 'bg-white text-on-surface-variant' : 'bg-white/60 text-on-surface-variant'} hover:bg-primary hover:text-white border border-outline-variant rounded-full font-bold text-sm px-6 py-2 transition-all shadow-sm`}>Contact Us</Link>
 
           <Disclosure as="div" className="md:hidden">
             {({ open, close }) => (
